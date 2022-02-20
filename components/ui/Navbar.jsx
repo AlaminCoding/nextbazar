@@ -2,10 +2,12 @@ import styled, { css } from "styled-components";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-
+import { useDispatch } from "react-redux";
+import { openCart } from "utils/slicers/cartOpenSlice";
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
   const handleMenu = () => {
     if (openMenu === false) {
       setOpenMenu(true);
@@ -44,9 +46,7 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link href="/">
-            <a>Cart</a>
-          </Link>
+          <a onClick={() => dispatch(openCart())}>Cart</a>
         </li>
         <li>
           <Link href="/">
@@ -104,6 +104,7 @@ const Menu = styled.ul`
       text-decoration: none;
       font-weight: 600;
       transition: 0.5s;
+      cursor: pointer;
       &:hover {
         opacity: 0.5;
       }

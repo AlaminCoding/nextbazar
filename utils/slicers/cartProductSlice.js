@@ -43,7 +43,6 @@ export const cartProductSlice = createSlice({
       let newProduct = { ...action.payload };
       newProduct.favourite = true;
       state.favouriteCart = [...state.favouriteCart, newProduct];
-      console.log(state.favouriteCart);
     },
     removeFavourite: (state, action) => {
       let newProduct = { ...action.payload };
@@ -54,7 +53,6 @@ export const cartProductSlice = createSlice({
       oldCartProducts[index].favourite = false;
       oldCartProducts.splice(index, 1);
       state.favouriteCart = [...oldCartProducts];
-      console.log(state.favouriteCart);
     },
   },
 });

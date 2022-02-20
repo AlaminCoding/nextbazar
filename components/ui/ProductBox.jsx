@@ -2,13 +2,9 @@ import styled from "styled-components";
 import Image from "next/image";
 import { HiOutlineCurrencyBangladeshi } from "react-icons/hi";
 import { useState } from "react";
-import {
-  AiFillHeart,
-  AiOutlineHeart,
-  AiFillMinusSquare,
-  AiFillPlusSquare,
-} from "react-icons/ai";
-import { useSelector, useDispatch } from "react-redux";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { BsFillPlusSquareFill, BsDashSquareFill } from "react-icons/bs";
+import { useDispatch } from "react-redux";
 import {
   addProduct,
   removeProduct,
@@ -16,7 +12,6 @@ import {
   removeFavourite,
 } from "utils/slicers/cartProductSlice";
 const ProductBox = (props) => {
-  const cartProducts = useSelector((state) => state.cartProduct.value);
   const dispatch = useDispatch();
 
   const { favourite, name, price, onSell, sellPrice, image } = props.data;
@@ -99,11 +94,11 @@ const ProductBox = (props) => {
         {inCart ? (
           <CartBtnGroup>
             <button onClick={() => decreaseCart(props.data)}>
-              <AiFillMinusSquare />
+              <BsDashSquareFill />
             </button>
             <h2>{productCount}</h2>
             <button onClick={() => increaseCart(props.data)}>
-              <AiFillPlusSquare />
+              <BsFillPlusSquareFill />
             </button>
           </CartBtnGroup>
         ) : (
@@ -198,13 +193,17 @@ const ImageBox = styled.div`
   img {
     border-radius: 5px;
   }
+  @media screen and (max-width: 400px) {
+    height: 200px;
+  }
 `;
 
 const CartBtnGroup = styled.div`
   display: flex;
   align-items: center;
   h2 {
-    margin: 0px 7px;
+    width: 40px;
+    text-align: center;
     font-size: 22px;
     font-weight: 600;
     padding-top: 7px;
@@ -217,9 +216,10 @@ const CartBtnGroup = styled.div`
     background-color: transparent;
   }
   svg {
-    font-size: 45px;
+    font-size: 36px;
     cursor: pointer;
     border-radius: 3px;
+    color: #363535;
   }
 `;
 const Sale = styled.div`

@@ -4,18 +4,32 @@ import { RiShoppingCartLine } from "react-icons/ri";
 import { IoBagCheckOutline } from "react-icons/io5";
 import { FiInstagram, FiTwitter } from "react-icons/fi";
 import { FaFacebook } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+import { openCart } from "utils/slicers/cartOpenSlice";
 const SidePanel = (props) => {
+  const cartProducts = useSelector((state) => state.cartProduct.value);
+  const favProduct = useSelector((state) => state.cartProduct.favouriteCart);
+  const dispatch = useDispatch();
+
+  const getCount = () => {
+    let count = 0;
+    cartProducts.forEach((element) => {
+      count = count + element.count;
+    });
+    return count;
+  };
+
   return (
     <SideBar cart={props.cart}>
       {props.cart ? (
         <>
-          <span>
+          <span onClick={() => dispatch(openCart())}>
             <RiShoppingCartLine />
-            <small>10</small>
+            {getCount() > 0 ? <small>{getCount()}</small> : null}
           </span>
           <span>
             <AiOutlineHeart />
-            <small>5</small>
+            {favProduct.length > 0 ? <small>{favProduct.length}</small> : null}
           </span>
           <span>
             <IoBagCheckOutline />
@@ -60,6 +74,7 @@ const SideBar = styled.aside`
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  z-index: 3;
   svg {
     color: white;
     font-size: 30px;
@@ -89,7 +104,7 @@ const SideBar = styled.aside`
       cursor: pointer;
     }
   }
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 765px) {
     width: 40px;
     height: 150px;
     ${(props) =>

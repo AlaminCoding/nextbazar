@@ -15,7 +15,7 @@ const TopSale = () => {
         </div>
         <Row>
           {Products.map((element) => (
-            <Col lg={3} key={element.id}>
+            <Col xl={3} lg={4} md={6} key={element.id}>
               <ProductBox data={element} />
             </Col>
           ))}
