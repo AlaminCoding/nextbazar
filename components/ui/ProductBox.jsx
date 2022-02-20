@@ -8,7 +8,17 @@ import {
   AiFillMinusSquare,
   AiFillPlusSquare,
 } from "react-icons/ai";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addProduct,
+  removeProduct,
+  addFavourite,
+  removeFavourite,
+} from "utils/slicers/cartProductSlice";
 const ProductBox = (props) => {
+  const cartProducts = useSelector((state) => state.cartProduct.value);
+  const dispatch = useDispatch();
+
   const { favourite, name, price, onSell, sellPrice, image } = props.data;
   const [inCart, setInCart] = useState(false);
   const [productCount, setProductCount] = useState(0);
@@ -18,31 +28,40 @@ const ProductBox = (props) => {
     return ((price - sellPrice) / price) * 100;
   };
 
-  const handleFavourite = () => {
-    setInFavourite(!inFavourite);
+  const handleFavourite = (data) => {
+    if (inFavourite === false) {
+      setInFavourite(true);
+      dispatch(addFavourite(data));
+    } else {
+      setInFavourite(false);
+      dispatch(removeFavourite(data));
+    }
   };
 
-  const addCartHandler = () => {
+  const addCartHandler = (data) => {
     setProductCount(productCount + 1);
     setInCart(true);
+    dispatch(addProduct(data));
   };
 
-  const increaseCart = () => {
+  const increaseCart = (data) => {
     setProductCount(productCount + 1);
+    dispatch(addProduct(data));
   };
 
-  const decreaseCart = () => {
+  const decreaseCart = (data) => {
     if (productCount > 1) {
       setProductCount(productCount - 1);
     } else {
       setProductCount(productCount - 1);
       setInCart(false);
     }
+    dispatch(removeProduct(data));
   };
 
   return (
     <Box>
-      <Favourite onClick={handleFavourite}>
+      <Favourite onClick={() => handleFavourite(props.data)}>
         {inFavourite ? (
           <>
             <AiFillHeart /> <span>Click to remove favourite</span>
@@ -79,16 +98,19 @@ const ProductBox = (props) => {
         </h2>
         {inCart ? (
           <CartBtnGroup>
-            <button onClick={decreaseCart}>
+            <button onClick={() => decreaseCart(props.data)}>
               <AiFillMinusSquare />
             </button>
             <h2>{productCount}</h2>
-            <button onClick={increaseCart}>
+            <button onClick={() => increaseCart(props.data)}>
               <AiFillPlusSquare />
             </button>
           </CartBtnGroup>
         ) : (
-          <button className="black-btn" onClick={addCartHandler}>
+          <button
+            className="black-btn"
+            onClick={() => addCartHandler(props.data)}
+          >
             Add to cart
           </button>
         )}

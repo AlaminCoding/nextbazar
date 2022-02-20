@@ -6,9 +6,11 @@ import SidePanel from "components/ui/SidePanel";
 import Head from "next/head";
 import "bootstrap/dist/css/bootstrap.css";
 import React from "react";
+import { Provider } from "react-redux";
+import { store } from "utils/store";
 function MyApp({ Component, pageProps }) {
   return (
-    <React.StrictMode>
+    <Provider store={store}>
       <Layout>
         <Head>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,7 +26,7 @@ function MyApp({ Component, pageProps }) {
         <Navbar />
         <Component {...pageProps} />
       </Layout>
-    </React.StrictMode>
+    </Provider>
   );
 }
 

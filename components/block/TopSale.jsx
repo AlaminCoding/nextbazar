@@ -4,8 +4,6 @@ import { Row, Col } from "react-bootstrap";
 
 import ProductBox from "components/ui/ProductBox";
 const TopSale = () => {
-  console.log(Products);
-
   return (
     <section className="custom-container">
       <div className="block">
