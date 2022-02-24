@@ -11,6 +11,7 @@ import {
   addFavourite,
   removeFavourite,
 } from "utils/slicers/cartProductSlice";
+import ProductButton from "./ProductButton";
 const ProductBox = (props) => {
   const dispatch = useDispatch();
 
@@ -55,7 +56,7 @@ const ProductBox = (props) => {
   };
 
   return (
-    <Box>
+    <Box onsell={onSell}>
       <Favourite onClick={() => handleFavourite(props.data)}>
         {inFavourite ? (
           <>
@@ -109,6 +110,7 @@ const ProductBox = (props) => {
             Add to cart
           </button>
         )}
+        {/* <ProductButton /> */}
       </div>
     </Box>
   );
@@ -129,7 +131,7 @@ const Box = styled.div`
     margin-top: 24px;
   }
   .price-btn {
-    margin-top: 15px;
+    margin-top: ${(props) => (props.onsell ? "15px" : "22px")};
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -214,6 +216,7 @@ const CartBtnGroup = styled.div`
     outline: none;
     padding: 0;
     background-color: transparent;
+    height: 44px;
   }
   svg {
     font-size: 36px;
