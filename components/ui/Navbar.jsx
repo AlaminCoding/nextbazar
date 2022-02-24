@@ -80,9 +80,24 @@ const MainNav = styled.nav`
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 2;
+  @media screen and (max-width: 530px) {
+    height: 80px;
+    top: 40px;
+    &:after {
+      content: "";
+      position: absolute;
+      height: 40px;
+      width: 100%;
+      background-color: white;
+      top: -40px;
+      left: 0px;
+    }
+  }
 `;
 
 const Logo = styled.div`
+  padding-top: 7px;
   a {
     color: #363535;
     font-size: 26px;
@@ -136,6 +151,10 @@ const Menu = styled.ul`
     li {
       margin: 30px 0px;
     }
+  }
+  @media screen and (max-width: 530px) {
+    top: 120px;
+    height: 88vh;
   }
 `;
 

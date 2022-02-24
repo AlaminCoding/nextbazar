@@ -3,6 +3,10 @@ $black: #363535;
 $red: #ff3667;
 main {
   padding-top: 105px;
+  @media screen and (max-width: 530px) {
+    padding-top: 120px;
+    overflow-x: hidden;
+  }
 }
 
 .custom-container {
@@ -13,8 +17,8 @@ main {
     padding-right: 50px;
   }
   @media screen and (max-width: 850px) {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
 
@@ -22,6 +26,9 @@ main {
   font-size: 26px;
   font-weight: 600;
   color: #363535;
+  @media screen and (max-width: 750px) {
+    font-size: 22px;
+  }
 }
 
 .black-btn {

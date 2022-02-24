@@ -35,7 +35,7 @@ const CartPanel = styled.section`
           pointer-events: none;
           transform: translateY(100px);
         `}
-  z-index: 2;
+  z-index: 4;
   transition: 0.5s;
   svg {
     font-size: 40px;

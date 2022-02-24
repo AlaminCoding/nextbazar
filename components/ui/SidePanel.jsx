@@ -104,7 +104,7 @@ const SideBar = styled.aside`
       cursor: pointer;
     }
   }
-  @media screen and (max-width: 765px) {
+  @media screen and (max-width: 850px) {
     width: 40px;
     height: 150px;
     ${(props) =>
@@ -123,6 +123,30 @@ const SideBar = styled.aside`
     span {
       small {
         top: 1px;
+      }
+    }
+  }
+  @media screen and (max-width: 530px) {
+    flex-direction: row;
+    width: 150px;
+    height: 40px;
+    ${(props) =>
+      props.cart
+        ? css`
+            border-radius: 0px 0px 0px 5px;
+          `
+        : css`
+            border-radius: 0px 0px 5px 0px;
+          `}
+    top: 0;
+    transform: translateY(0);
+    span {
+      small {
+        background-color: transparent;
+        border: none;
+        color: white;
+        top: 8px;
+        left: -18px;
       }
     }
   }
