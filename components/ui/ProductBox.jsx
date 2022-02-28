@@ -3,21 +3,12 @@ import Image from "next/image";
 import { HiOutlineCurrencyBangladeshi } from "react-icons/hi";
 import { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { BsFillPlusSquareFill, BsDashSquareFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
-import {
-  addProduct,
-  removeProduct,
-  addFavourite,
-  removeFavourite,
-} from "utils/slicers/cartProductSlice";
+import { addFavourite, removeFavourite } from "utils/slicers/cartProductSlice";
 import ProductButton from "./ProductButton";
 const ProductBox = (props) => {
   const dispatch = useDispatch();
-
   const { favourite, name, price, onSell, sellPrice, image } = props.data;
-  const [inCart, setInCart] = useState(false);
-  const [productCount, setProductCount] = useState(0);
   const [inFavourite, setInFavourite] = useState(favourite);
 
   const sellPercentage = () => {
@@ -32,27 +23,6 @@ const ProductBox = (props) => {
       setInFavourite(false);
       dispatch(removeFavourite(data));
     }
-  };
-
-  const addCartHandler = (data) => {
-    setProductCount(productCount + 1);
-    setInCart(true);
-    dispatch(addProduct(data));
-  };
-
-  const increaseCart = (data) => {
-    setProductCount(productCount + 1);
-    dispatch(addProduct(data));
-  };
-
-  const decreaseCart = (data) => {
-    if (productCount > 1) {
-      setProductCount(productCount - 1);
-    } else {
-      setProductCount(productCount - 1);
-      setInCart(false);
-    }
-    dispatch(removeProduct(data));
   };
 
   return (
@@ -92,25 +62,7 @@ const ProductBox = (props) => {
             price
           )}
         </h2>
-        {inCart ? (
-          <CartBtnGroup>
-            <button onClick={() => decreaseCart(props.data)}>
-              <BsDashSquareFill />
-            </button>
-            <h2>{productCount}</h2>
-            <button onClick={() => increaseCart(props.data)}>
-              <BsFillPlusSquareFill />
-            </button>
-          </CartBtnGroup>
-        ) : (
-          <button
-            className="black-btn"
-            onClick={() => addCartHandler(props.data)}
-          >
-            Add to cart
-          </button>
-        )}
-        {/* <ProductButton /> */}
+        <ProductButton data={props.data} local={true} />
       </div>
     </Box>
   );

@@ -4,10 +4,13 @@ import { AiOutlineClose } from "react-icons/ai";
 import { closeCart } from "utils/slicers/cartOpenSlice";
 import Image from "next/image";
 import { HiOutlineCurrencyBangladeshi } from "react-icons/hi";
+import ProductButton from "components/ui/ProductButton";
+import { useState } from "react";
 
 const CartSection = () => {
   const cartOpen = useSelector((state) => state.cartOpen.showCart);
   const cartProducts = useSelector((state) => state.cartProduct.value);
+
   const dispatch = useDispatch();
   return (
     <CartPanel open={cartOpen} className="custom-container">
@@ -17,7 +20,11 @@ const CartSection = () => {
       />
       <div className="block">
         <div className="block-header">
-          <h2 className="h-md">Your Cart</h2>
+          {cartProducts.length > 0 ? (
+            <h2 className="h-md">Your Cart</h2>
+          ) : (
+            <h2 className="h-md">Your Cart is empty</h2>
+          )}
         </div>
         {cartProducts.map((element) => (
           <CartBox key={element.id}>
@@ -33,6 +40,7 @@ const CartSection = () => {
                 </p>
               </div>
             </div>
+            <ProductButton data={element} local={false} />
             <div className="cart-quantity">
               <h2>Quantity : {element.count}</h2>
             </div>

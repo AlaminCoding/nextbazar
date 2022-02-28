@@ -10,7 +10,6 @@ const handleCartSection = createSlice({
   reducers: {
     openCart: (state) => {
       state.showCart = true;
-      console.log(state.showCart);
     },
     closeCart: (state) => {
       state.showCart = false;
