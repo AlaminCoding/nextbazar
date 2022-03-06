@@ -4,13 +4,12 @@ import { HiOutlineCurrencyBangladeshi } from "react-icons/hi";
 import { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { addFavourite, removeFavourite } from "utils/slicers/cartProductSlice";
+import { addFavourite, removeFavourite } from "utils/slicers/productSlice";
 import ProductButton from "./ProductButton";
 const ProductBox = (props) => {
   const dispatch = useDispatch();
   const { favourite, name, price, onSell, sellPrice, image } = props.data;
   const [inFavourite, setInFavourite] = useState(favourite);
-
   const sellPercentage = () => {
     return ((price - sellPrice) / price) * 100;
   };

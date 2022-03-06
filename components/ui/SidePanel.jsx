@@ -7,8 +7,8 @@ import { FaFacebook } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { openCart } from "utils/slicers/cartOpenSlice";
 const SidePanel = (props) => {
-  const cartProducts = useSelector((state) => state.cartProduct.value);
-  const favProduct = useSelector((state) => state.cartProduct.favouriteCart);
+  const cartProducts = useSelector((state) => state.allProduct.cart);
+  const favProduct = useSelector((state) => state.allProduct.favouriteCart);
   const dispatch = useDispatch();
 
   const getCount = () => {

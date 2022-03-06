@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { addProduct, removeProduct } from "utils/slicers/cartProductSlice";
+import { addProduct, removeProduct } from "utils/slicers/productSlice";
 import { BsFillPlusSquareFill, BsDashSquareFill } from "react-icons/bs";
 
 const ProductButton = (props) => {
@@ -8,9 +8,11 @@ const ProductButton = (props) => {
   const addCartHandler = async (data) => {
     dispatch(addProduct(data));
   };
+
   const increaseCart = (data) => {
     dispatch(addProduct(data));
   };
+
   const decreaseCart = (data) => {
     dispatch(removeProduct(data));
   };

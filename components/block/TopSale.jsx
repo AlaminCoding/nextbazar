@@ -1,9 +1,9 @@
-import Products from "public/data/products";
 import { BsArrowRightSquareFill } from "react-icons/bs";
-import { Row, Col } from "react-bootstrap";
-
 import ProductBox from "components/ui/ProductBox";
+import { Row, Col } from "react-bootstrap";
+import { useSelector } from "react-redux";
 const TopSale = () => {
+  const products = useSelector((state) => state.allProduct.products);
   return (
     <section className="custom-container">
       <div className="block">
@@ -14,7 +14,7 @@ const TopSale = () => {
           </span>
         </div>
         <Row>
-          {Products.map((element) => (
+          {products.map((element) => (
             <Col xl={3} lg={4} md={6} key={element.id}>
               <ProductBox data={element} />
             </Col>
