@@ -8,6 +8,15 @@ const CartSection = () => {
   const cartOpen = useSelector((state) => state.cartOpen.showCart);
   const cartProducts = useSelector((state) => state.allProduct.cart);
   const dispatch = useDispatch();
+
+  let totalPrice = 0;
+  cartProducts.forEach((element) => {
+    const { count, onSell, sellPrice, price } = element;
+    const mainPrice = onSell ? sellPrice : price;
+    const netPrice = count * mainPrice;
+    totalPrice = totalPrice + netPrice;
+  });
+
   return (
     <CartPanel open={cartOpen} className="custom-container">
       <AiOutlineClose
@@ -22,10 +31,16 @@ const CartSection = () => {
             <h2 className="h-md">Your Cart is empty</h2>
           )}
         </div>
-        <div className="box-wrapper">
-          {cartProducts.map((element) => (
-            <CartBoxes data={element} key={element.id} />
-          ))}
+        <div className="box-body">
+          <div className="box-wrapper">
+            {cartProducts.map((element) => (
+              <CartBoxes data={element} key={element.id} />
+            ))}
+          </div>
+          <div className="box-footer">
+            <h2>Total Price : {totalPrice} BDT</h2>
+            <button className="black-btn">Place Order</button>
+          </div>
         </div>
       </div>
     </CartPanel>
@@ -71,9 +86,13 @@ const CartPanel = styled.section`
       transform: rotate(180deg);
     }
   }
+  .box-body {
+    display: flex;
+  }
   .box-wrapper {
     overflow-y: scroll;
-    height: 92%;
+    height: 74.5vh;
+    flex: 1;
     &::-webkit-scrollbar {
       width: 3px;
     }
@@ -88,6 +107,35 @@ const CartPanel = styled.section`
 
     &::-webkit-scrollbar-thumb:hover {
       background: #555;
+    }
+  }
+  .box-footer {
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    h2 {
+      font-size: 20px;
+    }
+    button {
+      margin-top: 30px;
+    }
+    @media screen and (max-width: 980px) {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      flex-direction: row;
+      border-top: 1px solid gray;
+      padding: 10px;
+      h2 {
+        flex: 1;
+      }
+      button {
+        flex: 1;
+        margin: 0;
+      }
     }
   }
 `;

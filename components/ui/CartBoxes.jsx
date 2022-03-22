@@ -63,7 +63,7 @@ const CartBox = styled.div`
   align-items: center;
   animation-name: ${(props) => (props.fadeOut ? "fadeOut" : null)};
   animation-duration: 0.5s;
-  @media screen and (max-width: 1280px) {
+  @media screen and (max-width: 1580px) {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -81,8 +81,8 @@ const CartBox = styled.div`
     align-items: center;
   }
   .cart-img {
-    height: 150px;
-    width: 200px;
+    height: 100px;
+    width: 130px;
     position: relative;
     img {
       border-radius: 5px;
@@ -126,7 +126,7 @@ const CartBox = styled.div`
         cursor: pointer;
       }
     }
-    @media screen and (max-width: 1280px) {
+    @media screen and (max-width: 1580px) {
       width: 100%;
       margin-top: 30px;
     }
