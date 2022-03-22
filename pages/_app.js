@@ -1,5 +1,5 @@
 import "../styles/globals.scss";
-import GlobalStyle from "styles/GlobalStyle";
+
 import Layout from "../components/layout";
 import Navbar from "components/ui/Navbar";
 import SidePanel from "components/ui/SidePanel";
@@ -9,6 +9,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import React from "react";
 import { Provider } from "react-redux";
 import { store } from "utils/store";
+
 function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
@@ -21,7 +22,6 @@ function MyApp({ Component, pageProps }) {
             rel="stylesheet"
           />
         </Head>
-        <GlobalStyle />
         <CartSection />
         <SidePanel cart={true} />
         <SidePanel cart={false} />

@@ -22,9 +22,11 @@ const CartSection = () => {
             <h2 className="h-md">Your Cart is empty</h2>
           )}
         </div>
-        {cartProducts.map((element) => (
-          <CartBoxes data={element} key={element.id} />
-        ))}
+        <div className="box-wrapper">
+          {cartProducts.map((element) => (
+            <CartBoxes data={element} key={element.id} />
+          ))}
+        </div>
       </div>
     </CartPanel>
   );
@@ -41,6 +43,8 @@ const CartPanel = styled.section`
   left: 0;
   padding-top: 80px;
   padding-bottom: 80px;
+  box-sizing: border-box;
+  overflow-y: hidden;
   ${(props) =>
     props.open
       ? css`
@@ -57,7 +61,7 @@ const CartPanel = styled.section`
   transition: 0.5s;
   .close-btn {
     font-size: 40px;
-    position: absolute;
+    position: fixed;
     top: 30px;
     right: 30px;
     cursor: pointer;
@@ -65,6 +69,25 @@ const CartPanel = styled.section`
     transition: 0.5s;
     &:hover {
       transform: rotate(180deg);
+    }
+  }
+  .box-wrapper {
+    overflow-y: scroll;
+    height: 92%;
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
+    &::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: black;
+      border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: #555;
     }
   }
 `;

@@ -1,13 +1,26 @@
 import styled from "styled-components";
 import Image from "next/image";
 import { HiOutlineCurrencyBangladeshi } from "react-icons/hi";
+import { BsTrash } from "react-icons/bs";
 import ProductButton from "components/ui/ProductButton";
+import { removeFromCart } from "utils/slicers/productSlice";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 const CartBoxes = (props) => {
-  const { image, name, onSell, sellPrice, price, count } = props.data;
+  const { id, image, name, onSell, sellPrice, price, count } = props.data;
   const totalPrice = count * (onSell ? sellPrice : price);
+  const [fadeOut, setFadeOut] = useState(false);
+
+  const fadeOutCartRemove = (id) => {
+    setFadeOut(true);
+    setTimeout(() => {
+      dispatch(removeFromCart(id));
+    }, 500);
+  };
+  const dispatch = useDispatch();
   return (
-    <CartBox>
+    <CartBox fadeOut={fadeOut}>
       <div className="cart-details">
         <div className="cart-img">
           <Image src={image} layout="fill" objectFit="cover" />
@@ -15,16 +28,27 @@ const CartBoxes = (props) => {
         <div className="cart-price">
           <h2>{name}</h2>
           <p>
+            Unit Price
             <HiOutlineCurrencyBangladeshi />
             {onSell ? sellPrice : price}
           </p>
         </div>
       </div>
-      <div className="cart-price-quantity">
-        <ProductButton data={props.data} local={false} />
-        <h2 className="heading">Quantity : {count}</h2>
-        <h2 className="heading">Total Price : {totalPrice}</h2>
-      </div>
+
+      <ul className="cart-actions">
+        <li>
+          <ProductButton data={props.data} local={false} />
+        </li>
+        <li>
+          <h2 className="heading quantity">Quantity : {count}</h2>
+        </li>
+        <li>
+          <h2 className="heading">Price : {totalPrice}</h2>
+        </li>
+        <li>
+          <BsTrash onClick={() => fadeOutCartRemove(id)} />
+        </li>
+      </ul>
     </CartBox>
   );
 };
@@ -37,6 +61,21 @@ const CartBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  animation-name: ${(props) => (props.fadeOut ? "fadeOut" : null)};
+  animation-duration: 0.5s;
+  @media screen and (max-width: 1280px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
   .cart-details {
     display: flex;
     align-items: center;
@@ -61,19 +100,42 @@ const CartBox = styled.div`
       svg {
         position: relative;
         font-size: 16px;
-        top: -3px;
+        top: -2px;
         left: 0;
         margin-right: 3px;
+        margin-left: 10px;
       }
     }
   }
-  .cart-price-quantity {
-    display: flex;
+  .cart-actions {
+    width: 700px;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
     align-items: center;
-    .heading {
-      font-size: 18px;
-      padding-top: 5px;
-      margin-left: 50%;
+    list-style-type: none;
+    padding-right: 50px;
+    li {
+      .heading {
+        font-size: 18px;
+        padding-top: 5px;
+      }
+      svg {
+        display: block;
+        margin-left: auto;
+        font-size: 32px;
+        cursor: pointer;
+      }
+    }
+    @media screen and (max-width: 1280px) {
+      width: 100%;
+      margin-top: 30px;
+    }
+    @media screen and (max-width: 700px) {
+      grid-template-columns: auto auto;
+      grid-row-gap: 30px;
+      .quantity {
+        text-align: right;
+      }
     }
   }
 `;

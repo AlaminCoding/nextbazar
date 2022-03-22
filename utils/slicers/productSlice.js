@@ -57,6 +57,21 @@ export const productSlice = createSlice({
         state.cart = [...oldCartProducts];
       }
     },
+    removeFromCart: (state, action) => {
+      let productId = action.payload;
+      let cartProducts = [...state.cart];
+      let localProducts = [...state.products];
+      let cartIndex = cartProducts.findIndex(
+        (element) => element.id === productId
+      );
+      let localIndex = localProducts.findIndex(
+        (element) => element.id === productId
+      );
+      cartProducts.splice(cartIndex, 1);
+      localProducts[localIndex].count = 0;
+      state.cart = [...cartProducts];
+      state.products = [...localProducts];
+    },
     addFavourite: (state, action) => {
       let newProduct = { ...action.payload };
       newProduct.favourite = true;
@@ -75,7 +90,12 @@ export const productSlice = createSlice({
   },
 });
 
-export const { addProduct, removeProduct, addFavourite, removeFavourite } =
-  productSlice.actions;
+export const {
+  addProduct,
+  removeProduct,
+  addFavourite,
+  removeFavourite,
+  removeFromCart,
+} = productSlice.actions;
 
 export default productSlice.reducer;

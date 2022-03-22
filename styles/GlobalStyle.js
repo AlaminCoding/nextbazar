@@ -7,9 +7,11 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
     }
     body, html {
+        width: 100%;
         padding: 0;
         margin: 0;
         font-family: "Spartan", sans-serif;
+        position: ${(props) => (props.cartOpen ? "fixed" : "static")};
     }
     h2,h1,p,a,li,ul,span,button {
         padding: 0;
