@@ -74,11 +74,25 @@ export const productSlice = createSlice({
     },
     addFavourite: (state, action) => {
       let newProduct = { ...action.payload };
+      let localProducts = [...state.products];
+      let productIndex = localProducts.findIndex(
+        (element) => element.id === newProduct.id
+      );
+      localProducts[productIndex].favourite = true;
       newProduct.favourite = true;
+
       state.favouriteCart = [...state.favouriteCart, newProduct];
+      state.products = [...localProducts];
     },
     removeFavourite: (state, action) => {
       let newProduct = { ...action.payload };
+
+      let localProducts = [...state.products];
+      let productIndex = localProducts.findIndex(
+        (element) => element.id === newProduct.id
+      );
+      localProducts[productIndex].favourite = false;
+
       let oldCartProducts = [...state.favouriteCart];
       let index = oldCartProducts.findIndex(
         (element) => element.id === newProduct.id
@@ -86,6 +100,7 @@ export const productSlice = createSlice({
       oldCartProducts[index].favourite = false;
       oldCartProducts.splice(index, 1);
       state.favouriteCart = [...oldCartProducts];
+      state.products = [...localProducts];
     },
   },
 });

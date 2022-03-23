@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AiOutlineClose } from "react-icons/ai";
 import { closeCart } from "utils/slicers/cartOpenSlice";
 import CartBoxes from "components/ui/CartBoxes";
-
+import { HiOutlineCurrencyBangladeshi } from "react-icons/hi";
 const CartSection = () => {
   const cartOpen = useSelector((state) => state.cartOpen.showCart);
   const cartProducts = useSelector((state) => state.allProduct.cart);
@@ -19,28 +19,31 @@ const CartSection = () => {
 
   return (
     <CartPanel open={cartOpen} className="custom-container">
-      <AiOutlineClose
-        onClick={() => dispatch(closeCart())}
-        className="close-btn"
-      />
-      <div className="block">
-        <div className="block-header">
-          {cartProducts.length > 0 ? (
-            <h2 className="h-md">Your Cart</h2>
-          ) : (
-            <h2 className="h-md">Your Cart is empty</h2>
-          )}
+      <div className="block-header">
+        {cartProducts.length > 0 ? (
+          <h2 className="h-md">Your Cart</h2>
+        ) : (
+          <h2 className="h-md">Your Cart is empty</h2>
+        )}
+        <AiOutlineClose
+          onClick={() => dispatch(closeCart())}
+          className="close-btn"
+        />
+      </div>
+      <div className="block-wrapper">
+        <div className="block-body">
+          {cartProducts.map((element) => (
+            <CartBoxes data={element} key={element.id} />
+          ))}
         </div>
-        <div className="box-body">
-          <div className="box-wrapper">
-            {cartProducts.map((element) => (
-              <CartBoxes data={element} key={element.id} />
-            ))}
-          </div>
-          <div className="box-footer">
-            <h2>Total Price : {totalPrice} BDT</h2>
+        <div className="block-footer">
+          <h2>
+            <HiOutlineCurrencyBangladeshi />
+            {totalPrice} BDT
+          </h2>
+          {cartProducts.length > 0 ? (
             <button className="black-btn">Place Order</button>
-          </div>
+          ) : null}
         </div>
       </div>
     </CartPanel>
@@ -56,8 +59,8 @@ const CartPanel = styled.section`
   position: fixed;
   top: 0;
   left: 0;
-  padding-top: 80px;
-  padding-bottom: 80px;
+  padding-top: 35px;
+  padding-bottom: 35px;
   box-sizing: border-box;
   overflow-y: hidden;
   ${(props) =>
@@ -74,34 +77,54 @@ const CartPanel = styled.section`
         `}
   z-index: 4;
   transition: 0.5s;
-  .close-btn {
-    font-size: 40px;
-    position: fixed;
-    top: 30px;
-    right: 30px;
-    cursor: pointer;
-    transform: rotate(0deg);
-    transition: 0.5s;
-    &:hover {
-      transform: rotate(180deg);
+  @media screen and (max-width: 765px) {
+    padding-top: 10px;
+  }
+  .block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #d1d1d1;
+    padding-bottom: 15px;
+    background-color: white;
+    z-index: 1;
+    .close-btn {
+      font-size: 40px;
+      cursor: pointer;
+      transform: rotate(0deg);
+      transition: 0.5s;
+      &:hover {
+        transform: rotate(180deg);
+      }
     }
   }
-  .box-body {
+  .block-wrapper {
     display: flex;
+    margin-top: 30px;
   }
-  .box-wrapper {
-    overflow-y: scroll;
-    height: 74.5vh;
+  .block-body {
+    display: flex;
+    flex-direction: column;
     flex: 1;
+    border: 1px solid #d1d1d1;
+    height: 80vh;
+    overflow-y: scroll;
+    border-radius: 5px;
+    @media screen and (max-width: 980px) {
+      height: 77vh;
+    }
+    @media screen and (max-width: 400px) {
+      height: 72vh;
+    }
     &::-webkit-scrollbar {
-      width: 3px;
+      width: 0px;
     }
     &::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.1);
+      background: rgba(0, 0, 0, 0);
     }
 
     &::-webkit-scrollbar-thumb {
-      background: black;
+      background: rgba(0, 0, 0, 0);
       border-radius: 5px;
     }
 
@@ -109,14 +132,23 @@ const CartPanel = styled.section`
       background: #555;
     }
   }
-  .box-footer {
+
+  .block-footer {
     width: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    border: 1px solid #d1d1d1;
+    margin-left: 30px;
+    border-radius: 5px;
     h2 {
       font-size: 20px;
+      svg {
+        position: relative;
+        top: -3px;
+        margin-right: 5px;
+      }
     }
     button {
       margin-top: 30px;
@@ -127,10 +159,15 @@ const CartPanel = styled.section`
       left: 0;
       width: 100%;
       flex-direction: row;
-      border-top: 1px solid gray;
+      border: none;
+      border-top: 1px solid #d1d1d1;
+      border-radius: 0;
       padding: 10px;
+      box-sizing: border-box;
+      margin-left: 0;
       h2 {
         flex: 1;
+        font-size: 18px;
       }
       button {
         flex: 1;

@@ -6,9 +6,10 @@ import ProductButton from "components/ui/ProductButton";
 import { removeFromCart } from "utils/slicers/productSlice";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
+import ProductImage from "./ProductImage";
 
 const CartBoxes = (props) => {
-  const { id, image, name, onSell, sellPrice, price, count } = props.data;
+  const { id, onSell, sellPrice, price, count } = props.data;
   const totalPrice = count * (onSell ? sellPrice : price);
   const [fadeOut, setFadeOut] = useState(false);
 
@@ -21,20 +22,7 @@ const CartBoxes = (props) => {
   const dispatch = useDispatch();
   return (
     <CartBox fadeOut={fadeOut}>
-      <div className="cart-details">
-        <div className="cart-img">
-          <Image src={image} layout="fill" objectFit="cover" />
-        </div>
-        <div className="cart-price">
-          <h2>{name}</h2>
-          <p>
-            Unit Price
-            <HiOutlineCurrencyBangladeshi />
-            {onSell ? sellPrice : price}
-          </p>
-        </div>
-      </div>
-
+      <ProductImage data={props.data} />
       <ul className="cart-actions">
         <li>
           <ProductButton data={props.data} local={false} />
@@ -56,7 +44,7 @@ const CartBoxes = (props) => {
 export default CartBoxes;
 
 const CartBox = styled.div`
-  padding: 30px 0px;
+  padding: 30px 0px 30px 30px;
   border-bottom: 1px solid #d1d1d1;
   display: flex;
   justify-content: space-between;
@@ -103,7 +91,6 @@ const CartBox = styled.div`
         top: -2px;
         left: 0;
         margin-right: 3px;
-        margin-left: 10px;
       }
     }
   }
@@ -132,7 +119,7 @@ const CartBox = styled.div`
     }
     @media screen and (max-width: 700px) {
       grid-template-columns: auto auto;
-      grid-row-gap: 30px;
+      grid-row-gap: 20px;
       .quantity {
         text-align: right;
       }

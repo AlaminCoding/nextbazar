@@ -6,8 +6,8 @@ const TopSale = () => {
   const products = useSelector((state) => state.allProduct.products);
   return (
     <section className="custom-container">
-      <div className="block">
-        <div className="block-header">
+      <div className="box">
+        <div className="box-header">
           <h2 className="h-md">Top Sale</h2>
           <span className="view-all">
             View All <BsArrowRightSquareFill />

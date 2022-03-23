@@ -41,7 +41,6 @@ const products = [
     sellCount: 10,
     favourite: false,
   },
-
   {
     id: 3,
     name: "Owl Tree",
@@ -52,6 +51,20 @@ const products = [
     price: 300,
     onSell: true,
     sellPrice: 285,
+    count: 0,
+    sellCount: 10,
+    favourite: false,
+  },
+  {
+    id: 4,
+    name: "Owl Car",
+    image: "https://i.ibb.co/K02kBv7/yellow.jpg",
+    category: "Vehicle",
+    description: "Lorem Ipsum DOler Si Amet",
+    rating: 5,
+    price: 2500,
+    onSell: false,
+    sellPrice: null,
     count: 0,
     sellCount: 10,
     favourite: false,

@@ -3,37 +3,35 @@ import Image from "next/image";
 import { HiOutlineCurrencyBangladeshi } from "react-icons/hi";
 import { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addFavourite, removeFavourite } from "utils/slicers/productSlice";
 import ProductButton from "./ProductButton";
 const ProductBox = (props) => {
+  const products = useSelector((state) => state.allProduct.products);
+  let index = products.findIndex((element) => element.id === props.data.id);
   const dispatch = useDispatch();
-  const { favourite, name, price, onSell, sellPrice, image } = props.data;
-  const [inFavourite, setInFavourite] = useState(favourite);
+  const { name, price, onSell, sellPrice, image } = props.data;
+  const inFavourite = products[index].favourite;
   const sellPercentage = () => {
     return ((price - sellPrice) / price) * 100;
   };
 
-  const handleFavourite = (data) => {
-    if (inFavourite === false) {
-      setInFavourite(true);
-      dispatch(addFavourite(data));
-    } else {
-      setInFavourite(false);
-      dispatch(removeFavourite(data));
-    }
-  };
-
   return (
     <Box onsell={onSell}>
-      <Favourite onClick={() => handleFavourite(props.data)}>
+      <Favourite>
         {inFavourite ? (
           <>
-            <AiFillHeart /> <span>Click to remove favourite</span>
+            <AiFillHeart
+              onClick={() => dispatch(removeFavourite(props.data))}
+            />
+            <span>Click to remove favourite</span>
           </>
         ) : (
           <>
-            <AiOutlineHeart /> <span>Click to add favourite</span>
+            <AiOutlineHeart
+              onClick={() => dispatch(addFavourite(props.data))}
+            />
+            <span>Click to add favourite</span>
           </>
         )}
       </Favourite>
