@@ -6,6 +6,7 @@ import { FiInstagram, FiTwitter } from "react-icons/fi";
 import { FaFacebook } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { openCart } from "utils/slicers/cartOpenSlice";
+import { openFav } from "utils/slicers/favOpenSlice";
 const SidePanel = (props) => {
   const cartProducts = useSelector((state) => state.allProduct.cart);
   const favProduct = useSelector((state) => state.allProduct.favouriteCart);
@@ -27,7 +28,7 @@ const SidePanel = (props) => {
             <RiShoppingCartLine />
             {getCount() > 0 ? <small>{getCount()}</small> : null}
           </span>
-          <span>
+          <span onClick={() => dispatch(openFav())}>
             <AiOutlineHeart />
             {favProduct.length > 0 ? <small>{favProduct.length}</small> : null}
           </span>

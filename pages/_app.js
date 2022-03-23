@@ -9,6 +9,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import React from "react";
 import { Provider } from "react-redux";
 import { store } from "utils/store";
+import FavSection from "components/block/FavSection";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -23,6 +24,7 @@ function MyApp({ Component, pageProps }) {
           />
         </Head>
         <CartSection />
+        <FavSection />
         <SidePanel cart={true} />
         <SidePanel cart={false} />
         <Navbar />

@@ -11,7 +11,8 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
         margin: 0;
         font-family: "Spartan", sans-serif;
-        position: ${(props) => (props.cartOpen ? "fixed" : "static")};
+        position: ${(props) =>
+          props.cartOpen || props.favOpen ? "fixed" : "static"};
     }
     h2,h1,p,a,li,ul,span,button {
         padding: 0;
