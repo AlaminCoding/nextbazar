@@ -97,6 +97,7 @@ const Box = styled.div`
     }
     del {
       font-size: 14px;
+      opacity: 0.5;
     }
   }
 `;

@@ -7,10 +7,12 @@ import { FaFacebook } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { openCart } from "utils/slicers/cartOpenSlice";
 import { openFav } from "utils/slicers/favOpenSlice";
+import { useRouter } from "next/router";
 const SidePanel = (props) => {
   const cartProducts = useSelector((state) => state.allProduct.cart);
   const favProduct = useSelector((state) => state.allProduct.favouriteCart);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const getCount = () => {
     let count = 0;
@@ -20,7 +22,7 @@ const SidePanel = (props) => {
     return count;
   };
 
-  return (
+  return router.asPath != "/account" ? (
     <SideBar cart={props.cart}>
       {props.cart ? (
         <>
@@ -50,7 +52,7 @@ const SidePanel = (props) => {
         </>
       )}
     </SideBar>
-  );
+  ) : null;
 };
 
 export default SidePanel;

@@ -56,7 +56,7 @@ const Navbar = () => {
           <a onClick={() => dispatch(openCart())}>Cart</a>
         </li>
         <li>
-          <Link href="/">
+          <Link href="/account">
             <a>Account</a>
           </Link>
         </li>
