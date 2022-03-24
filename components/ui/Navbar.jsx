@@ -22,7 +22,7 @@ const Navbar = () => {
       setOpenMenu(false);
     };
     router.events.on("routeChangeStart", handleRouteChange);
-  }, []);
+  });
 
   return (
     <MainNav className="custom-container">
