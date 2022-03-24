@@ -4,7 +4,6 @@ import Layout from "../components/layout";
 import Navbar from "components/ui/Navbar";
 import SidePanel from "components/ui/SidePanel";
 import CartSection from "components/block/CartSection";
-import Head from "next/head";
 import "bootstrap/dist/css/bootstrap.css";
 import React from "react";
 import { Provider } from "react-redux";
