@@ -61,7 +61,7 @@ const SideBar = styled.aside`
   background-color: #363535;
   border-radius: 5px;
   position: fixed;
-  top: 50%;
+  bottom: 50%;
   ${(props) =>
     props.cart
       ? css`
@@ -70,7 +70,7 @@ const SideBar = styled.aside`
       : css`
           left: 20px;
         `}
-  transform: translateY(-50%);
+  transform: translateY(50%);
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -129,23 +129,27 @@ const SideBar = styled.aside`
   }
   @media screen and (max-width: 530px) {
     flex-direction: row;
-    width: 150px;
-    height: 40px;
+    width: 50%;
+    height: 50px;
+    background-color: #f4f4f4;
     ${(props) =>
       props.cart
         ? css`
-            border-radius: 0px 0px 0px 5px;
+            border-radius: 0px;
           `
         : css`
-            border-radius: 0px 0px 5px 0px;
+            border-radius: 0px;
           `}
-    top: 0;
+    bottom: 0;
     transform: translateY(0);
+    svg {
+      color: black;
+    }
     span {
       small {
         background-color: transparent;
         border: none;
-        color: white;
+        color: black;
         top: 8px;
         left: -18px;
       }

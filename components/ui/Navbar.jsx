@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { openCart } from "utils/slicers/cartOpenSlice";
+import { BiSearchAlt2 } from "react-icons/bi";
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const router = useRouter();
@@ -30,6 +31,12 @@ const Navbar = () => {
           <a>NEXTBAZAR</a>
         </Link>
       </Logo>
+      <Search>
+        <div className="input-group">
+          <input type="text" placeholder="Search Product" />
+          <BiSearchAlt2 />
+        </div>
+      </Search>
       <Menu open={openMenu}>
         <li>
           <Link href="/">
@@ -76,7 +83,7 @@ const MainNav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
+  background-color: #f4f4f4;
   position: fixed;
   top: 0;
   left: 0;
@@ -105,7 +112,53 @@ const Logo = styled.div`
     text-decoration: none;
   }
 `;
-
+const Search = styled.div`
+  width: 30%;
+  .input-group {
+    border: 2px solid #363535;
+    display: flex;
+    align-items: center;
+    border-radius: 3px;
+    input {
+      height: 35px;
+      flex: 1;
+      border: none;
+      width: 50%;
+      padding-left: 10px;
+      &:focus {
+        outline: none;
+      }
+    }
+    svg {
+      width: 50px;
+      background-color: #363535;
+      color: white;
+      height: 35px;
+      padding: 5px;
+      cursor: pointer;
+    }
+  }
+  @media screen and (max-width: 1180px) {
+    width: 50%;
+  }
+  @media screen and (max-width: 530px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    .input-group {
+      border: none;
+      input {
+        height: 40px;
+      }
+      svg {
+        height: 40px;
+        padding: 7px;
+      }
+    }
+  }
+`;
 const Menu = styled.ul`
   list-style: none;
   display: flex;
@@ -113,6 +166,9 @@ const Menu = styled.ul`
   margin: 0;
   li {
     margin-left: 35px;
+    &:nth-child(1) {
+      margin-left: 0px;
+    }
     a {
       color: #363535;
       font-size: 16px;
@@ -135,7 +191,7 @@ const Menu = styled.ul`
       }
     }
   }
-  @media screen and (max-width: 750px) {
+  @media screen and (max-width: 1180px) {
     position: fixed;
     top: 80px;
     right: ${(props) => (props.open ? "0%" : "-100%")};
@@ -203,7 +259,7 @@ const Toggle = styled.div`
   .bar2 {
     opacity: ${(props) => (props.open ? "0" : "1")};
   }
-  @media screen and (max-width: 750px) {
+  @media screen and (max-width: 1180px) {
     display: flex;
   }
 `;
