@@ -6,7 +6,12 @@ const ProductImage = (props) => {
   return (
     <CartDetails>
       <div className="cart-img">
-        <Image src={image} layout="fill" objectFit="cover" />
+        <Image
+          src={image}
+          layout="fill"
+          objectFit="cover"
+          alt="Product Image"
+        />
       </div>
       <div className="cart-price">
         <h2>{name}</h2>
