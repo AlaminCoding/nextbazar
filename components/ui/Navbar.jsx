@@ -61,8 +61,8 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link href="/">
-            <a className="black-btn">Contact</a>
+          <Link href="/admin">
+            <a className="black-btn">Admin</a>
           </Link>
         </li>
       </Menu>

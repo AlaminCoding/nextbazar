@@ -22,7 +22,7 @@ const SidePanel = (props) => {
     return count;
   };
 
-  return router.asPath != "/account" ? (
+  return (
     <SideBar cart={props.cart}>
       {props.cart ? (
         <>
@@ -52,7 +52,7 @@ const SidePanel = (props) => {
         </>
       )}
     </SideBar>
-  ) : null;
+  );
 };
 
 export default SidePanel;
