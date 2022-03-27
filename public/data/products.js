@@ -24,7 +24,7 @@ const products = [
     onSell: false,
     sellPrice: null,
     count: 0,
-    sellCount: 10,
+    sellCount: 9,
     favourite: false,
   },
   {
@@ -38,7 +38,7 @@ const products = [
     onSell: false,
     sellPrice: null,
     count: 0,
-    sellCount: 10,
+    sellCount: 7,
     favourite: false,
   },
   {
@@ -52,7 +52,7 @@ const products = [
     onSell: true,
     sellPrice: 285,
     count: 0,
-    sellCount: 10,
+    sellCount: 2,
     favourite: false,
   },
   {
@@ -66,7 +66,7 @@ const products = [
     onSell: false,
     sellPrice: null,
     count: 0,
-    sellCount: 10,
+    sellCount: 0,
     favourite: false,
   },
 ];

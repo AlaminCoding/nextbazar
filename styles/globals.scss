@@ -7,6 +7,9 @@ main {
     padding-top: 120px;
     overflow-x: hidden;
   }
+  @media screen and (max-width: 850px) {
+    padding-bottom: 50px;
+  }
 }
 
 .custom-container {

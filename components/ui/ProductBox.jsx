@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Image from "next/image";
 import { HiOutlineCurrencyBangladeshi } from "react-icons/hi";
-import { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { addFavourite, removeFavourite } from "utils/slicers/productSlice";

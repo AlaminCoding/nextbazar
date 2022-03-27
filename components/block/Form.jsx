@@ -31,13 +31,14 @@ const Form = () => {
                 <label htmlFor="password">Password</label>
                 <input type="password" name="password" id="" />
               </div>
-
-              <button type="submit" className="black-btn">
-                Login
-              </button>
-              <small>
-                Forget Password ? <a href="#">Click Here</a>
-              </small>
+              <div className="d-flex justify-content-between align-items-center mt-5">
+                <button type="submit" className="black-btn">
+                  Login
+                </button>
+                <small>
+                  <a href="#">Forget Password ? </a>
+                </small>
+              </div>
             </form>
           ) : (
             <form action="">
@@ -67,6 +68,12 @@ const Form = () => {
             </form>
           )}
         </div>
+        <div className="mobile-ques">
+          {loginActive ? <p>Member Not Yet ?</p> : <p>Already A Memebr ?</p>}
+          <b onClick={() => setLoginActive(!loginActive)}>
+            {loginActive ? "REGISTER" : "LOGIN"}
+          </b>
+        </div>
       </div>
     </FormWrapper>
   );
@@ -88,7 +95,10 @@ const FormWrapper = styled.section`
     @media screen and (max-width: 850px) {
       margin-top: 30px;
     }
-
+    @media screen and (max-width: 700px) {
+      height: auto;
+      padding: 30px;
+    }
     .image-panel {
       width: 40%;
       height: 100%;
@@ -104,9 +114,7 @@ const FormWrapper = styled.section`
         left: ${(props) => (props.loginActive ? "0" : "60%")};
       }
       @media screen and (max-width: 700px) {
-        left: 0;
-        height: 200px;
-        width: 100%;
+        display: none;
       }
       img {
         z-index: -1;
@@ -142,17 +150,8 @@ const FormWrapper = styled.section`
       position: absolute;
       background-color: white;
       top: 0;
-      right: ${(props) => (props.loginActive ? "0" : "40%")};
       transition: 0.5s;
-      @media screen and (min-width: 700px) {
-        right: ${(props) => (props.loginActive ? "0" : "40%")};
-      }
-      @media screen and (max-width: 700px) {
-        top: 200px;
-        left: 0;
-        height: auto;
-        width: 100%;
-      }
+
       form {
         width: 350px;
         h2 {
@@ -191,6 +190,29 @@ const FormWrapper = styled.section`
             font-weight: 600;
           }
         }
+      }
+      @media screen and (min-width: 700px) {
+        right: ${(props) => (props.loginActive ? "0" : "40%")};
+      }
+      @media screen and (max-width: 700px) {
+        position: static;
+        width: 100%;
+        form {
+          width: 100%;
+        }
+      }
+    }
+    .mobile-ques {
+      display: none;
+      margin-top: 40px;
+      padding: 10px;
+      b {
+        cursor: pointer;
+      }
+      @media screen and (max-width: 700px) {
+        display: flex;
+        justify-content: space-evenly;
+        background-color: #f4f4f4;
       }
     }
   }
