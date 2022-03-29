@@ -15,9 +15,12 @@ const AdminNavbar = () => {
       <Link href="/">
         <a className="h-md">NEXTBAZAR</a>
       </Link>
-      <button onClick={() => userLogout()} className="black-btn">
-        Logout
-      </button>
+      <nav className="d-flex align-items-center">
+        <p className="me-3">Logged in as UserName</p>
+        <button onClick={() => userLogout()} className="black-btn">
+          Logout
+        </button>
+      </nav>
     </Navbar>
   );
 };

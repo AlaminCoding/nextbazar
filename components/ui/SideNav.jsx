@@ -1,27 +1,38 @@
 import Link from "next/link";
 import styled from "styled-components";
+import { MdDashboard } from "react-icons/md";
+import { GiApothecary, GiBarbute } from "react-icons/gi";
+import { BiSelection } from "react-icons/bi";
 const SideNav = () => {
   return (
     <SideBar>
       <ul>
         <li>
           <Link href="/admin/dashboard">
-            <a>Dashboard</a>
+            <a>
+              <MdDashboard /> Dashboard
+            </a>
           </Link>
         </li>
         <li>
           <Link href="/admin/products">
-            <a>Products</a>
+            <a>
+              <GiApothecary /> Products
+            </a>
           </Link>
         </li>
         <li>
           <Link href="/admin/categories">
-            <a>Categories</a>
+            <a>
+              <BiSelection /> Categories
+            </a>
           </Link>
         </li>
         <li>
           <Link href="#">
-            <a>Users</a>
+            <a>
+              <GiBarbute /> Users
+            </a>
           </Link>
         </li>
       </ul>
@@ -39,6 +50,15 @@ const SideBar = styled.div`
     list-style-type: none;
     li {
       margin-bottom: 20px;
+      a {
+        display: flex;
+        align-items: center;
+        svg {
+          position: relative;
+          top: -2px;
+          margin-right: 5px;
+        }
+      }
     }
   }
 `;
