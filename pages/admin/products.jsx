@@ -5,12 +5,15 @@ import Image from "next/image";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { BiEdit } from "react-icons/bi";
 import { BsTrash } from "react-icons/bs";
+import Link from "next/link";
 const Products = () => {
   const allProducts = products;
   return (
     <>
       <ProductHeader>
-        <button className="black-btn">Add Product</button>
+        <Link href="/admin/add_product">
+          <a className="black-btn"> Add Product</a>
+        </Link>
       </ProductHeader>
       <ProductTable>
         <thead>
@@ -63,9 +66,9 @@ const Products = () => {
               </td>
               <td>
                 <div className="action-box">
-                  <FaEye />
-                  <BiEdit />
-                  <BsTrash />
+                  <FaEye title="Hide" />
+                  <BiEdit title="Edit" />
+                  <BsTrash title="Delete" />
                 </div>
               </td>
             </tr>
