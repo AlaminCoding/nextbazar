@@ -2,7 +2,7 @@ import AdminLayout from "components/adminLayout";
 import products from "public/data/products";
 import styled from "styled-components";
 import Image from "next/image";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 import { BiEdit } from "react-icons/bi";
 import { BsTrash } from "react-icons/bs";
 import Link from "next/link";
@@ -67,7 +67,12 @@ const Products = () => {
               <td>
                 <div className="action-box">
                   <FaEye title="Hide" />
-                  <BiEdit title="Edit" />
+                  <Link href="/admin/edit_product">
+                    <a>
+                      <BiEdit title="Edit" />
+                    </a>
+                  </Link>
+
                   <BsTrash title="Delete" />
                 </div>
               </td>

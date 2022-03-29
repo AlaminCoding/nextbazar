@@ -8,7 +8,7 @@ const TopSale = () => {
     <section className="custom-container">
       <div className="box">
         <div className="box-header">
-          <h2 className="h-md">Top Sale</h2>
+          <h2 className="h-md">All Products</h2>
           <span className="view-all">
             View All <BsArrowRightSquareFill />
           </span>
