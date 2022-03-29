@@ -16,14 +16,15 @@ const Navbar = () => {
       setOpenMenu(false);
     }
   };
-
+  const handleRouteChange = () => {
+    setOpenMenu(false);
+  };
   useEffect(() => {
-    const handleRouteChange = () => {
-      setOpenMenu(false);
-    };
     router.events.on("routeChangeStart", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
   });
-
   return (
     <MainNav className="custom-container">
       <Logo>

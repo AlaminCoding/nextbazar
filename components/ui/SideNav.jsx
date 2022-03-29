@@ -15,7 +15,7 @@ const SideNav = () => {
           </Link>
         </li>
         <li>
-          <Link href="#">
+          <Link href="/admin/categories">
             <a>Categories</a>
           </Link>
         </li>
