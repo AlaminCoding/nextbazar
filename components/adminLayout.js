@@ -25,4 +25,5 @@ const MainPanel = styled.div`
   flex: 1;
   overflow-y: scroll;
   padding: 30px;
+  position: relative;
 `;

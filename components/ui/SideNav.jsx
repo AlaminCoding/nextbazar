@@ -29,7 +29,7 @@ const SideNav = () => {
           </Link>
         </li>
         <li>
-          <Link href="#">
+          <Link href="/admin/users">
             <a>
               <GiBarbute /> Users
             </a>
