@@ -3,9 +3,17 @@ import styled from "styled-components";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { BiEdit } from "react-icons/bi";
 import { BsTrash } from "react-icons/bs";
+import EditCategory from "components/block/EditCategory";
+import { useState } from "react";
 const Categories = () => {
+  const [edit, setEdit] = useState(false);
   return (
     <>
+      {edit ? (
+        <EditWrapper>
+          <EditCategory setEdit={setEdit} />
+        </EditWrapper>
+      ) : null}
       <h2 className="h-md">Add Category</h2>
       <Input>
         <input type="text" placeholder="Enter Category Name" />
@@ -30,7 +38,7 @@ const Categories = () => {
             <td>
               <ActionBox>
                 <FaEye title="Hide" />
-                <BiEdit title="Edit" />
+                <BiEdit title="Edit" onClick={() => setEdit(true)} />
                 <BsTrash title="Delete" />
               </ActionBox>
             </td>
@@ -42,7 +50,7 @@ const Categories = () => {
             <td>
               <ActionBox>
                 <FaEye title="Hide" />
-                <BiEdit title="Edit" />
+                <BiEdit title="Edit" onClick={() => setEdit(true)} />
                 <BsTrash title="Delete" />
               </ActionBox>
             </td>
@@ -111,4 +119,16 @@ const ActionBox = styled.div`
       opacity: 0.5;
     }
   }
+`;
+const EditWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 50px;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
