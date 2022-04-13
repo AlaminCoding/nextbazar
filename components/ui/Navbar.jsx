@@ -33,8 +33,8 @@ const Navbar = () => {
   });
 
   const userLogout = () => {
-    router.push("/");
     dispatch(logout());
+    router.replace("/");
   };
 
   return (

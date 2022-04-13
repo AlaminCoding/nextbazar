@@ -1,24 +1,5 @@
 import axios from "axios";
 
-import {
-  loginStart,
-  loginSuccess,
-  loginError,
-} from "utils/slicers/userAuthSlice";
-
-export const login = async (user, dispatch, router) => {
-  dispatch(loginStart());
-  const { redirect } = router.query; //account?redirect=/profile
-  console.log(redirect);
-  try {
-    const res = await axios.post("http://localhost:8000/auth/login", user);
-    dispatch(loginSuccess(res.data));
-    router.replace(redirect || "/");
-  } catch (err) {
-    dispatch(loginError());
-  }
-};
-
 export const signup = async (user, dispatch, router) => {
   try {
     const registerData = {

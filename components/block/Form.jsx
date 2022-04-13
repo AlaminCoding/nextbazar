@@ -2,10 +2,16 @@ import styled from "styled-components";
 import Image from "next/image";
 import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { login, signup } from "utils/apiCalls";
+import { signup } from "utils/apiCalls";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import {
+  loginStart,
+  loginSuccess,
+  loginError,
+} from "utils/slicers/userAuthSlice";
+import axios from "axios";
 const Form = () => {
   const loginError = useSelector((state) => state.userAuth.error);
 
@@ -28,12 +34,41 @@ const Form = () => {
   } = useForm();
 
   const LoginSubmit = async (data) => {
-    await login(data, dispatch, router);
+    dispatch(loginStart());
+    const { redirect } = router.query; //account?redirect=/profile
+    try {
+      const res = await axios.post("http://localhost:8000/auth/login", data);
+      dispatch(loginSuccess(res.data));
+      router.replace(redirect || "/");
+    } catch (err) {
+      console.log(err);
+      dispatch(loginError());
+    }
   };
+
   const RegisterSubmit = async (data) => {
     if (data.password1 === data.password2) {
       setPassError(false);
-      signup(data, dispatch, router);
+      console.log(data);
+      const registerData = {
+        username: data.username,
+        email: data.email1,
+        password: data.password2,
+      };
+      const loginData = {
+        email: data.email1,
+        password: data.password1,
+      };
+      // Sign Up
+      try {
+        const registerRes = await axios.post(
+          "http://localhost:8000/auth/register",
+          registerData
+        );
+        LoginSubmit(loginData);
+      } catch (err) {
+        console.log(err);
+      }
     } else {
       setPassError(true);
     }
