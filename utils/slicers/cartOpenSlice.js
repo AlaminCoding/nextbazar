@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
 const initialState = {
-  showCart: false,
+  showCart: Cookies.get("openCart") === "true" ? true : false,
 };
 
 const handleCartSection = createSlice({
@@ -9,9 +10,11 @@ const handleCartSection = createSlice({
   initialState,
   reducers: {
     openCart: (state) => {
+      Cookies.set("openCart", "true");
       state.showCart = true;
     },
     closeCart: (state) => {
+      Cookies.set("openCart", "false");
       state.showCart = false;
     },
   },

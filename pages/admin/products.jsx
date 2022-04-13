@@ -6,8 +6,19 @@ import { FaEye } from "react-icons/fa";
 import { BiEdit } from "react-icons/bi";
 import { BsTrash } from "react-icons/bs";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import axios from "axios";
 const Products = () => {
-  const allProducts = products;
+  const [allProducts, setAllProducts] = useState([]);
+
+  useEffect(async () => {
+    try {
+      const res = await axios.get("http://localhost:8000/product");
+      setAllProducts(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
   return (
     <>
       <ProductHeader>
@@ -29,7 +40,7 @@ const Products = () => {
         </thead>
         <tbody>
           {allProducts.map((element) => (
-            <tr key={element.id}>
+            <tr key={element._id}>
               <td>
                 <div className="product-name">
                   <div className="product-img">
@@ -67,7 +78,7 @@ const Products = () => {
               <td>
                 <div className="action-box">
                   <FaEye title="Hide" />
-                  <Link href="/admin/edit_product">
+                  <Link href={"/admin/edit_product/" + element._id}>
                     <a>
                       <BiEdit title="Edit" />
                     </a>

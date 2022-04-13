@@ -1,16 +1,16 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
-import { useRef } from "react";
+
 const ProductForm = (props) => {
-  const productProps = props.formData ? props.formData : null;
-  const [productObj, setProductObj] = useState(productProps);
-  const [discount, setDiscount] = useState(false);
+  const [productObj, setProductObj] = useState(props.formData);
+  const [discount, setDiscount] = useState(productObj?.onSell || false);
   const [imageChange, setImageChange] = useState(false);
   const [preview, setPreview] = useState(
-    "https://i.ibb.co/HPjXndZ/istockphoto-1133851396-612x612.jpg"
+    productObj?.image ||
+      "https://i.ibb.co/HPjXndZ/istockphoto-1133851396-612x612.jpg"
   );
-  const checkRef = useRef();
+  const [category, setCategory] = useState(productObj?.category);
   const checkInput = (event) => {
     setDiscount(event.target.checked);
   };
@@ -21,20 +21,33 @@ const ProductForm = (props) => {
       setImageChange(true);
     }
   };
+
+  const handleCategory = (event) => {
+    setCategory(event.target.value);
+  };
+
   return (
     <Form>
       <div className="form-left">
         <div className="form-group">
           <label htmlFor="product_name">Name</label>
-          <input type="text" name="product_name" value={productObj?.name} />
+          <input
+            type="text"
+            name="product_name"
+            defaultValue={productObj?.name}
+          />
         </div>
         <div className="form-group">
           <label htmlFor="description">Description</label>
-          <textarea type="text" name="description"></textarea>
+          <textarea
+            type="text"
+            name="description"
+            defaultValue={productObj?.description}
+          ></textarea>
         </div>
         <div className="form-group">
           <label htmlFor="price">Price</label>
-          <input type="number" name="price" />
+          <input type="number" name="price" defaultValue={productObj?.price} />
           <span>BDT</span>
         </div>
         <div className="form-group form-flex">
@@ -44,25 +57,33 @@ const ProductForm = (props) => {
             name="discount"
             id=""
             onChange={checkInput}
-            ref={checkRef}
+            defaultChecked={productObj?.onSell}
           />
         </div>
         {discount ? (
           <div className="form-group">
             <label htmlFor="sell_price">Discount Price</label>
-            <input type="number" name="sell_price" />
+            <input
+              type="number"
+              name="sell_price"
+              defaultValue={productObj?.sellPrice}
+            />
             <span>BDT</span>
           </div>
         ) : null}
         <div className="form-group">
           <label htmlFor="category">Category</label>
-          <select name="category" id="">
+          <select name="category" value={category} onChange={handleCategory}>
             <option value="">Select Category</option>
-            <option value="0">Electronics</option>
-            <option value="1">Vehicels</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Vehicles">Vehicels</option>
           </select>
         </div>
-        <button className="black-btn">ADD +</button>
+        {productObj ? (
+          <button className="black-btn">Update</button>
+        ) : (
+          <button className="black-btn">ADD +</button>
+        )}
       </div>
       <div className="form-right">
         <div className="form-group">

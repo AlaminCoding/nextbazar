@@ -4,8 +4,23 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { BiEdit } from "react-icons/bi";
 import { BsTrash } from "react-icons/bs";
 import EditCategory from "components/block/EditCategory";
-import { useState } from "react";
-const Categories = () => {
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+export async function getServerSideProps() {
+  const res = await axios.get("http://localhost:8000/category");
+  const data = res.data;
+  return {
+    props: { data },
+  };
+}
+
+const Categories = ({ data }) => {
+  const [categories, setCategories] = useState(data);
+  useEffect(() => {
+    setCategories(data);
+  }, []);
+
   const [edit, setEdit] = useState(false);
   return (
     <>
@@ -31,30 +46,20 @@ const Categories = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <b>Electronics</b>
-            </td>
-            <td>
-              <ActionBox>
-                <FaEye title="Hide" />
-                <BiEdit title="Edit" onClick={() => setEdit(true)} />
-                <BsTrash title="Delete" />
-              </ActionBox>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Vehicel</b>
-            </td>
-            <td>
-              <ActionBox>
-                <FaEye title="Hide" />
-                <BiEdit title="Edit" onClick={() => setEdit(true)} />
-                <BsTrash title="Delete" />
-              </ActionBox>
-            </td>
-          </tr>
+          {categories.map((element) => (
+            <tr key={element._id}>
+              <td>
+                <b>{element.name}</b>
+              </td>
+              <td>
+                <ActionBox>
+                  <FaEye title="Hide" />
+                  <BiEdit title="Edit" onClick={() => setEdit(true)} />
+                  <BsTrash title="Delete" />
+                </ActionBox>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </CategoryTable>
     </>

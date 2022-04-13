@@ -1,13 +1,21 @@
 import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "utils/slicers/userAuthSlice";
+import { useEffect, useState } from "react";
 const AdminNavbar = () => {
+  const [user, setUser] = useState(null);
+  const loggedUser = useSelector((state) => state.userAuth.user);
+
+  useEffect(() => {
+    setUser(loggedUser);
+  });
+
   const router = useRouter();
   const dispatch = useDispatch();
   const userLogout = () => {
-    router.replace("/");
+    router.push("/");
     dispatch(logout());
   };
   return (
@@ -16,7 +24,7 @@ const AdminNavbar = () => {
         <a className="h-md">NEXTBAZAR</a>
       </Link>
       <nav className="d-flex align-items-center">
-        <p className="me-3">Logged in as UserName</p>
+        <p className="me-3">Logged in as {user && user.username}</p>
         <button onClick={() => userLogout()} className="black-btn">
           Logout
         </button>

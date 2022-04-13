@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import Cookies from "js-cookie";
 const initialState = {
-  showFav: false,
+  showFav: Cookies.get("openFav") === "true" ? true : false,
 };
 
 const handleFavSection = createSlice({
@@ -9,9 +9,11 @@ const handleFavSection = createSlice({
   initialState,
   reducers: {
     openFav: (state) => {
+      Cookies.set("openFav", "true");
       state.showFav = true;
     },
     closeFav: (state) => {
+      Cookies.set("openFav", "false");
       state.showFav = false;
     },
   },

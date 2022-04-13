@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   cart: [],
   favouriteCart: [],
-  products: [...products],
+  products: products,
 };
 
 export const productSlice = createSlice({
@@ -13,6 +13,7 @@ export const productSlice = createSlice({
   reducers: {
     addProduct: (state, action) => {
       let newProduct = { ...action.payload };
+
       // Local Product Addition
       let localProducts = [...state.products];
       let productIndex = state.products.findIndex(
@@ -28,6 +29,7 @@ export const productSlice = createSlice({
       let oldCartProducts = [...state.cart];
       if (productCartIndex != -1) {
         oldCartProducts[productCartIndex].count++;
+
         state.cart = [...oldCartProducts];
       } else {
         newProduct.count = 1;
