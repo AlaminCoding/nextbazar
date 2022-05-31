@@ -8,17 +8,41 @@ import { BsTrash } from "react-icons/bs";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
-const Products = () => {
-  const [allProducts, setAllProducts] = useState([]);
+import Skeleton from "react-loading-skeleton";
 
-  useEffect(async () => {
+export async function getServerSideProps() {
+  const res = await axios.get("http://localhost:8000/product");
+  const data = res.data;
+  return {
+    props: { data },
+  };
+}
+
+const Products = ({ data }) => {
+  const [allProducts, setAllProducts] = useState(data);
+  const handleDelete = async (id) => {
     try {
+      const deleteRes = await axios.delete(
+        `http://localhost:8000/product/delete/${id}`
+      );
       const res = await axios.get("http://localhost:8000/product");
       setAllProducts(res.data);
     } catch (err) {
-      console.log(err);
+      console.log("Jhamela Ache");
     }
+  };
+
+  useEffect(async () => {
+    await getCategory("6249510bb8997fcac2331c0a");
   }, []);
+
+  async function getCategory(id) {
+    const res = await axios.get(`http://localhost:8000/category/${id}`);
+    const data = res.data;
+    // console.log(data.name);
+    return data.name;
+  }
+  getCategory("6249510bb8997fcac2331c0a");
   return (
     <>
       <ProductHeader>
@@ -26,6 +50,7 @@ const Products = () => {
           <a className="black-btn"> Add Product</a>
         </Link>
       </ProductHeader>
+
       <ProductTable>
         <thead>
           <tr>
@@ -39,58 +64,71 @@ const Products = () => {
           </tr>
         </thead>
         <tbody>
-          {allProducts.map((element) => (
-            <tr key={element._id}>
-              <td>
-                <div className="product-name">
-                  <div className="product-img">
-                    <Image
-                      src={element.image}
-                      alt="product image"
-                      layout="fill"
-                      objectFit="cover"
+          {allProducts &&
+            allProducts.map((element) => (
+              <tr key={element._id}>
+                <td>
+                  <div className="product-name">
+                    <div className="product-img">
+                      <Image
+                        src={element.image}
+                        alt="product image"
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                    </div>
+                    <b>{element.name}</b>
+                  </div>
+                </td>
+                <td>
+                  <b>{element.category}</b>
+                </td>
+                <td>
+                  <b>{element.price}</b>
+                </td>
+                <td>
+                  <b>{element.sellPrice ? element.sellPrice : "---"}</b>
+                </td>
+                <td>
+                  <b>
+                    {element.sellPrice
+                      ? Math.floor(
+                          ((element.price - element.sellPrice) /
+                            element.price) *
+                            100
+                        ) + "%"
+                      : "---"}
+                  </b>
+                </td>
+                <td>
+                  <b>{element.sellCount}</b>
+                </td>
+                <td>
+                  <div className="action-box">
+                    <FaEye title="Hide" />
+                    <Link href={"/admin/edit_product/" + element._id}>
+                      <a>
+                        <BiEdit title="Edit" />
+                      </a>
+                    </Link>
+
+                    <BsTrash
+                      title="Delete"
+                      onClick={() => handleDelete(element._id)}
                     />
                   </div>
-                  <b>{element.name}</b>
-                </div>
-              </td>
-              <td>
-                <b>{element.category}</b>
-              </td>
-              <td>
-                <b>{element.price}</b>
-              </td>
-              <td>
-                <b>{element.sellPrice ? element.sellPrice : "---"}</b>
-              </td>
-              <td>
-                <b>
-                  {element.sellPrice
-                    ? ((element.price - element.sellPrice) / element.price) *
-                        100 +
-                      "%"
-                    : "---"}
-                </b>
-              </td>
-              <td>
-                <b>{element.sellCount}</b>
-              </td>
-              <td>
-                <div className="action-box">
-                  <FaEye title="Hide" />
-                  <Link href={"/admin/edit_product/" + element._id}>
-                    <a>
-                      <BiEdit title="Edit" />
-                    </a>
-                  </Link>
-
-                  <BsTrash title="Delete" />
-                </div>
-              </td>
-            </tr>
-          ))}
+                </td>
+              </tr>
+            ))}
         </tbody>
       </ProductTable>
+      {allProducts ? null : (
+        <Skeleton
+          count={2}
+          height={40}
+          style={{ borderRadius: 5, width: "100%", marginTop: 10 }}
+        />
+      )}
     </>
   );
 };

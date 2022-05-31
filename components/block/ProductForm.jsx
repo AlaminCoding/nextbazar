@@ -1,24 +1,54 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const ProductForm = (props) => {
   const [productObj, setProductObj] = useState(props.formData);
   const [discount, setDiscount] = useState(productObj?.onSell || false);
   const [imageChange, setImageChange] = useState(false);
+  const [allCategories, setAllCategories] = useState(null);
+
+  useEffect(async () => {
+    let isSubscribed = true; //For clean useEffect after Unmounte
+    try {
+      const res = await axios.get("http://localhost:8000/category");
+      const data = res.data;
+      if (isSubscribed) {
+        setAllCategories(data);
+      }
+    } catch (err) {
+      console.log("Something Wrong");
+    }
+    return () => {
+      isSubscribed = false;
+    };
+  });
+
   const [preview, setPreview] = useState(
     productObj?.image ||
       "https://i.ibb.co/HPjXndZ/istockphoto-1133851396-612x612.jpg"
   );
+
+  const [imgData, setImgData] = useState(null);
   const [category, setCategory] = useState(productObj?.category);
+  const { handleSubmit, register } = useForm();
+  const router = useRouter();
   const checkInput = (event) => {
     setDiscount(event.target.checked);
   };
+
   const handleImage = (event) => {
     if (event.target.files[0]) {
-      const objectUrl = URL.createObjectURL(event.target.files[0]);
-      setPreview(objectUrl);
-      setImageChange(true);
+      setImgData(event.target.files[0]);
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onloadend = () => {
+        setPreview(reader.result);
+        setImageChange(true);
+      };
     }
   };
 
@@ -26,38 +56,84 @@ const ProductForm = (props) => {
     setCategory(event.target.value);
   };
 
+  const getModelProduct = (data) => {
+    const productData = { ...data };
+    productData.image = preview;
+    productData.rating = 0;
+    productData.count = 0;
+    productData.sellCount = 0;
+    productData.favourite = false;
+    productData.active = true;
+    productData.sellPrice = discount ? parseInt(productData.sellPrice) : 0;
+    productData.price = parseInt(productData.price);
+
+    return productData;
+  };
+
+  const AddProductSubmit = async (data) => {
+    try {
+      console.log(getModelProduct(data));
+      const addProductRes = await axios.post(
+        "http://localhost:8000/product/addproduct",
+        getModelProduct(data)
+      );
+      router.replace("/admin/products");
+    } catch (err) {
+      console.log("Somethings Wrong");
+    }
+  };
+
+  const UpdateProductSubmit = async (data) => {
+    try {
+      const updateRes = await axios.put(
+        `http://localhost:8000/product/update/${productObj._id}`,
+        getModelProduct(data)
+      );
+      router.replace("/admin/products");
+    } catch (err) {
+      console.log("Somethings Wrong");
+    }
+  };
+
   return (
-    <Form>
+    <Form
+      onSubmit={handleSubmit(
+        productObj ? UpdateProductSubmit : AddProductSubmit
+      )}
+    >
       <div className="form-left">
         <div className="form-group">
-          <label htmlFor="product_name">Name</label>
+          <label htmlFor="name">Name</label>
           <input
             type="text"
-            name="product_name"
             defaultValue={productObj?.name}
+            {...register("name", { required: true })}
           />
         </div>
         <div className="form-group">
           <label htmlFor="description">Description</label>
           <textarea
             type="text"
-            name="description"
+            {...register("description", { required: true })}
             defaultValue={productObj?.description}
           ></textarea>
         </div>
         <div className="form-group">
           <label htmlFor="price">Price</label>
-          <input type="number" name="price" defaultValue={productObj?.price} />
+          <input
+            type="number"
+            {...register("price", { required: true })}
+            defaultValue={productObj?.price}
+          />
           <span>BDT</span>
         </div>
         <div className="form-group form-flex">
           <label htmlFor="discount">Discount</label>
           <input
             type="checkbox"
-            name="discount"
-            id=""
+            {...register("onSell")}
             onChange={checkInput}
-            defaultChecked={productObj?.onSell}
+            defaultChecked={productObj ? productObj.onSell : false}
           />
         </div>
         {discount ? (
@@ -65,7 +141,7 @@ const ProductForm = (props) => {
             <label htmlFor="sell_price">Discount Price</label>
             <input
               type="number"
-              name="sell_price"
+              {...register("sellPrice", { required: discount })}
               defaultValue={productObj?.sellPrice}
             />
             <span>BDT</span>
@@ -73,23 +149,40 @@ const ProductForm = (props) => {
         ) : null}
         <div className="form-group">
           <label htmlFor="category">Category</label>
-          <select name="category" value={category} onChange={handleCategory}>
+          <select
+            {...register("category")}
+            value={category}
+            onChange={handleCategory}
+          >
             <option value="">Select Category</option>
-            <option value="Electronics">Electronics</option>
-            <option value="Vehicles">Vehicels</option>
+            {allCategories &&
+              allCategories.map((element) => (
+                <option value={element.name} key={element._id}>
+                  {element.name}
+                </option>
+              ))}
           </select>
         </div>
         {productObj ? (
-          <button className="black-btn">Update</button>
+          <button className="black-btn" type="submit">
+            Update
+          </button>
         ) : (
-          <button className="black-btn">ADD +</button>
+          <button className="black-btn" type="submit">
+            ADD +
+          </button>
         )}
       </div>
       <div className="form-right">
         <div className="form-group">
           <label htmlFor="image">Image</label>
           <div className="image-input">
-            <input type="file" onChange={handleImage} accept="image/*" />
+            <input
+              type="file"
+              {...register("image")}
+              onChange={handleImage}
+              accept="image/*"
+            />
             <h2>{imageChange ? "Change Image" : "Choose Image"}</h2>
             <div className="image-panel">
               <div className="image-wrapper">

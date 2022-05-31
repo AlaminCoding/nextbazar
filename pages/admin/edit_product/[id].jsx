@@ -1,8 +1,6 @@
 import axios from "axios";
 import AdminLayout from "components/adminLayout";
 import ProductForm from "components/block/ProductForm";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 
 export async function getServerSideProps(context) {
   const id = context.params.id;

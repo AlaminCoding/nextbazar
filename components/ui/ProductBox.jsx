@@ -7,12 +7,12 @@ import { addFavourite, removeFavourite } from "utils/slicers/productSlice";
 import ProductButton from "./ProductButton";
 const ProductBox = (props) => {
   const products = useSelector((state) => state.allProduct.products);
-  let index = products.findIndex((element) => element.id === props.data.id);
+  let index = products.findIndex((element) => element._id === props.data._id);
   const dispatch = useDispatch();
   const { name, price, onSell, sellPrice, image } = props.data;
   const inFavourite = products[index].favourite;
   const sellPercentage = () => {
-    return ((price - sellPrice) / price) * 100;
+    return Math.floor(((price - sellPrice) / price) * 100);
   };
 
   return (
@@ -36,7 +36,7 @@ const ProductBox = (props) => {
       </Favourite>
       {onSell ? (
         <Sale>
-          <h2>-{sellPercentage()}%</h2>
+          <h2>{sellPercentage()}%</h2>
         </Sale>
       ) : null}
       <ImageBox>

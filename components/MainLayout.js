@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import "react-loading-skeleton/dist/skeleton.css";
 import GlobalStyle from "styles/GlobalStyle";
 import { useEffect } from "react";
 import { RouteGuard } from "./RouteGuard";

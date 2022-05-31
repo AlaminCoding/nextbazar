@@ -1,8 +1,8 @@
-import TopSale from "components/block/TopSale";
+import AllProduct from "components/block/AllProduct";
 export default function Home() {
   return (
     <>
-      <TopSale />
+      <AllProduct />
     </>
   );
 }

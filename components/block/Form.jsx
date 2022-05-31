@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Image from "next/image";
 import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { signup } from "utils/apiCalls";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
@@ -39,9 +38,9 @@ const Form = () => {
     try {
       const res = await axios.post("http://localhost:8000/auth/login", data);
       dispatch(loginSuccess(res.data));
-      router.replace(redirect || "/");
+      console.log(redirect);
+      router.push(redirect || "/");
     } catch (err) {
-      console.log(err);
       dispatch(loginError());
     }
   };

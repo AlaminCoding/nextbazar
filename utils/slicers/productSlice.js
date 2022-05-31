@@ -1,10 +1,20 @@
 import products from "public/data/products";
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+export const fetchProductData = createAsyncThunk(
+  "CartProduct/fetchProductData",
+  async () => {
+    return await fetch("http://localhost:8000/product").then((res) =>
+      res.json()
+    );
+  }
+);
 
 const initialState = {
   cart: [],
   favouriteCart: [],
-  products: products,
+  products: [],
+  status: null,
 };
 
 export const productSlice = createSlice({
@@ -17,14 +27,14 @@ export const productSlice = createSlice({
       // Local Product Addition
       let localProducts = [...state.products];
       let productIndex = state.products.findIndex(
-        (element) => element.id === newProduct.id
+        (element) => element._id === newProduct._id
       );
       localProducts[productIndex].count++;
       state.products = [...localProducts];
 
       // Cart Product Addion
       let productCartIndex = state.cart.findIndex(
-        (element) => element.id === newProduct.id
+        (element) => element._id === newProduct._id
       );
       let oldCartProducts = [...state.cart];
       if (productCartIndex != -1) {
@@ -41,13 +51,13 @@ export const productSlice = createSlice({
       // Local Product Reduction
       let localProducts = [...state.products];
       let productIndex = state.products.findIndex(
-        (element) => element.id === newProduct.id
+        (element) => element._id === newProduct._id
       );
       localProducts[productIndex].count--;
       state.products = [...localProducts];
       // Cart Product Reduction
       let productCartIndex = state.cart.findIndex(
-        (element) => element.id === newProduct.id
+        (element) => element._id === newProduct._id
       );
       let oldCartProducts = [...state.cart];
 
@@ -60,14 +70,14 @@ export const productSlice = createSlice({
       }
     },
     removeFromCart: (state, action) => {
-      let productId = action.payload;
+      let product_id = action.payload;
       let cartProducts = [...state.cart];
       let localProducts = [...state.products];
       let cartIndex = cartProducts.findIndex(
-        (element) => element.id === productId
+        (element) => element._id === product_id
       );
       let localIndex = localProducts.findIndex(
-        (element) => element.id === productId
+        (element) => element._id === product_id
       );
       cartProducts.splice(cartIndex, 1);
       localProducts[localIndex].count = 0;
@@ -78,7 +88,7 @@ export const productSlice = createSlice({
       let newProduct = { ...action.payload };
       let localProducts = [...state.products];
       let productIndex = localProducts.findIndex(
-        (element) => element.id === newProduct.id
+        (element) => element._id === newProduct._id
       );
       localProducts[productIndex].favourite = true;
       newProduct.favourite = true;
@@ -91,18 +101,30 @@ export const productSlice = createSlice({
 
       let localProducts = [...state.products];
       let productIndex = localProducts.findIndex(
-        (element) => element.id === newProduct.id
+        (element) => element._id === newProduct._id
       );
       localProducts[productIndex].favourite = false;
 
       let oldCartProducts = [...state.favouriteCart];
       let index = oldCartProducts.findIndex(
-        (element) => element.id === newProduct.id
+        (element) => element._id === newProduct._id
       );
       oldCartProducts[index].favourite = false;
       oldCartProducts.splice(index, 1);
       state.favouriteCart = [...oldCartProducts];
       state.products = [...localProducts];
+    },
+  },
+  extraReducers: {
+    [fetchProductData.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [fetchProductData.fulfilled]: (state, action) => {
+      state.status = "success";
+      state.products = action.payload;
+    },
+    [fetchProductData.rejected]: (state, action) => {
+      state.status = "failed";
     },
   },
 });

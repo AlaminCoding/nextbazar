@@ -37,7 +37,7 @@ const CartSection = () => {
       <div className="block-wrapper">
         <div className="block-body">
           {cartProducts.map((element) => (
-            <CartBoxes data={element} key={element.id} />
+            <CartBoxes data={element} key={element._id} />
           ))}
         </div>
         <div className="block-footer">

@@ -36,7 +36,7 @@ const FavSection = () => {
       </div>
       <div className="fav-block">
         {favProducts.map((element) => (
-          <FavBoxes data={element} key={element.id} />
+          <FavBoxes data={element} key={element._id} />
         ))}
       </div>
       <div className="block-footer">

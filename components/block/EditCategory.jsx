@@ -1,14 +1,35 @@
 import styled from "styled-components";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 const EditCategory = (props) => {
+  const { _id, name } = props.updateCategory;
+  console.log(props);
+  const { register, handleSubmit } = useForm({ defaultValues: { name: name } });
+
+  const UpdateCategory = async (data) => {
+    try {
+      const updateRes = await axios.put(
+        `http://localhost:8000/category/update/${_id}`,
+        data
+      );
+      props.setEdit(false);
+      props.setCategory();
+    } catch (err) {
+      console.log("Something Wrong");
+    }
+  };
+
   return (
     <Edit>
       <h2 className="h-md">CATEGORY EDIT</h2>
-      <Form>
+      <Form onSubmit={handleSubmit(UpdateCategory)}>
         <div className="form-group">
           <label htmlFor="name">Name</label>
-          <input type="text" name="username" />
+          <input type="text" {...register("name")} />
         </div>
-        <button className="black-btn">Update</button>
+        <button className="black-btn" type="submit">
+          Update
+        </button>
         <button className="black-btn ms-4" onClick={() => props.setEdit(false)}>
           Cancel
         </button>
