@@ -5,6 +5,7 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { login } from "utils/slicers/userAuthSlice";
 import { useRouter } from "next/router";
+
 const AdminLogin = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -12,6 +13,7 @@ const AdminLogin = () => {
     dispatch(login());
     router.replace("/admin");
   };
+
   return (
     <FormWrapper>
       <form>

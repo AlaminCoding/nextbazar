@@ -8,7 +8,7 @@ const ProductForm = (props) => {
   const [discount, setDiscount] = useState(false);
   const [imageChange, setImageChange] = useState(false);
   const [preview, setPreview] = useState(
-    "https://i.ibb.co/HPjXndZ/istockphoto-1133851396-612x612.jpg"
+    "https://i.postimg.cc/mkRVWkTd/preview.png"
   );
   const checkRef = useRef();
   const checkInput = (event) => {
