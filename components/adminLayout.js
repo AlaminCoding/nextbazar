@@ -5,7 +5,6 @@ const AdminLayout = ({ children }) => {
   return (
     <>
       <AdminNavbar />
-
       <Main>
         <SideNav />
         <MainPanel>{children}</MainPanel>
