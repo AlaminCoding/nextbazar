@@ -1,15 +1,84 @@
 import styled from "styled-components";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import {
+  loginStart,
+  loginSuccess,
+  loginError,
+} from "utils/slicers/userAuthSlice";
+import axios from "axios";
 const Form = () => {
+  const loginError = useSelector((state) => state.userAuth.error);
+
   const [loginActive, setLoginActive] = useState(true);
+  const formRef = useRef(null);
+
+  const changeState = () => {
+    setLoginActive(!loginActive);
+    formRef.current.reset();
+  };
+
+  const [passError, setPassError] = useState(false);
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const LoginSubmit = async (data) => {
+    dispatch(loginStart());
+    const { redirect } = router.query; //account?redirect=/profile
+    try {
+      const res = await axios.post("http://localhost:8000/auth/login", data);
+      dispatch(loginSuccess(res.data));
+      console.log(redirect);
+      router.push(redirect || "/");
+    } catch (err) {
+      dispatch(loginError());
+    }
+  };
+
+  const RegisterSubmit = async (data) => {
+    if (data.password1 === data.password2) {
+      setPassError(false);
+      console.log(data);
+      const registerData = {
+        username: data.username,
+        email: data.email1,
+        password: data.password2,
+      };
+      const loginData = {
+        email: data.email1,
+        password: data.password1,
+      };
+      // Sign Up
+      try {
+        const registerRes = await axios.post(
+          "http://localhost:8000/auth/register",
+          registerData
+        );
+        LoginSubmit(loginData);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      setPassError(true);
+    }
+  };
   return (
     <FormWrapper className="custom-container" loginActive={loginActive}>
       <div className="form-box">
         <div className="image-panel">
           <h2>HELLO !</h2>
           <h3>{loginActive ? "Member not yet ?" : "Already a memebr ?"}</h3>
-          <button onClick={() => setLoginActive(!loginActive)}>
+          <button onClick={() => changeState()}>
             {loginActive ? "Sign In" : "Login"}
           </button>
           <Image
@@ -21,15 +90,26 @@ const Form = () => {
         </div>
         <div className="form-panel">
           {loginActive ? (
-            <form action="">
+            <form onSubmit={handleSubmit(LoginSubmit)} ref={formRef}>
               <h2>Login</h2>
+              {loginError ? <b>Wrong Email or Password</b> : null}
               <div className="form-group">
-                <label htmlFor="username_email">Username or Email</label>
-                <input type="text" name="username_email" />
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  {...register("email", {
+                    required: true,
+                  })}
+                />
+                <b>{errors.email && "Email is required"}</b>
               </div>
               <div className="form-group">
                 <label htmlFor="password">Password</label>
-                <input type="password" name="password" id="" />
+                <input
+                  type="password"
+                  {...register("password", { required: true })}
+                />
+                <b>{errors.password && "Password is required"}</b>
               </div>
               <div className="d-flex justify-content-between align-items-center mt-5">
                 <button type="submit" className="black-btn">
@@ -41,23 +121,42 @@ const Form = () => {
               </div>
             </form>
           ) : (
-            <form action="">
+            <form onSubmit={handleSubmit(RegisterSubmit)} ref={formRef}>
               <h2>Sign In</h2>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
-                <input type="text" name="username" />
+                <input
+                  type="text"
+                  {...register("username", { required: true })}
+                />
+                <b>{errors.username && "Username is required"}</b>
               </div>
               <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input type="email" name="email" />
+                <label htmlFor="email1">Email</label>
+                <input
+                  type="email"
+                  {...register("email1", {
+                    required: true,
+                  })}
+                />
+                <b>{errors.email1 && "Email is required"}</b>
               </div>
               <div className="form-group">
                 <label htmlFor="password1">Password</label>
-                <input type="password" name="password1" id="" />
+                <input
+                  type="password"
+                  {...register("password1", { required: true })}
+                />
+                <b>{errors.password1 && "Password is required"}</b>
               </div>
               <div className="form-group">
                 <label htmlFor="password2">Confirm Password</label>
-                <input type="password" name="password2" id="" />
+                <input
+                  type="password"
+                  {...register("password2", { required: true })}
+                />
+                <b>{errors.password2 && "Password is required"}</b>
+                {passError && <b>Password Mismatch</b>}
               </div>
               <button type="submit" className="black-btn">
                 Sign In
@@ -70,7 +169,7 @@ const Form = () => {
         </div>
         <div className="mobile-ques">
           {loginActive ? <p>Member Not Yet ?</p> : <p>Already A Memebr ?</p>}
-          <b onClick={() => setLoginActive(!loginActive)}>
+          <b onClick={() => changeState()}>
             {loginActive ? "REGISTER" : "LOGIN"}
           </b>
         </div>
@@ -177,6 +276,11 @@ const FormWrapper = styled.section`
             pointer-events: none;
             /* border-bottom: 2px solid #363535; */
           }
+        }
+        b {
+          font-size: 12px;
+          margin-top: 5px;
+          color: crimson;
         }
         button {
           margin-top: 30px;

@@ -1,23 +1,92 @@
 import AdminLayout from "components/adminLayout";
 import styled from "styled-components";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { BiEdit } from "react-icons/bi";
 import { BsTrash } from "react-icons/bs";
 import EditCategory from "components/block/EditCategory";
-import { useState } from "react";
-const Categories = () => {
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+
+export async function getServerSideProps() {
+  const res = await axios.get("http://localhost:8000/category");
+  const data = res.data;
+  return {
+    props: { data },
+  };
+}
+
+const Categories = ({ data }) => {
+  const [categories, setCategories] = useState(data);
   const [edit, setEdit] = useState(false);
+  const [updateCategory, setUpdateCategory] = useState(null);
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState,
+    formState: { isSubmitSuccessful },
+  } = useForm({ defaultValues: { name: "" } });
+
+  const setCategory = async () => {
+    const res = await axios.get("http://localhost:8000/category");
+    setCategories(res.data);
+  };
+
+  useEffect(() => {
+    setCategory();
+  }, []);
+
+  const AddCategory = async (data) => {
+    try {
+      const categoryRes = await axios.post(
+        "http://localhost:8000/category/addcategory",
+        data
+      );
+      const res = await axios.get("http://localhost:8000/category");
+      setCategories(res.data);
+      reset();
+    } catch (err) {
+      console.log("Jhamlea Ache");
+    }
+  };
+
+  const DeleteCategory = async (id) => {
+    try {
+      const categoryDelete = await axios.delete(
+        `http://localhost:8000/category/delete/${id}`
+      );
+      setCategory();
+    } catch (err) {
+      console.log("Jhamela Ache");
+    }
+  };
+
+  const UpdateCategory = async (element) => {
+    setEdit(true);
+    setUpdateCategory(element);
+  };
+
   return (
     <>
       {edit ? (
         <EditWrapper>
-          <EditCategory setEdit={setEdit} />
+          <EditCategory
+            setEdit={setEdit}
+            updateCategory={updateCategory}
+            setCategory={setCategory}
+          />
         </EditWrapper>
       ) : null}
       <h2 className="h-md">Add Category</h2>
-      <Input>
-        <input type="text" placeholder="Enter Category Name" />
-        <button className="black-btn">Add</button>
+      <Input onSubmit={handleSubmit(AddCategory)}>
+        <input
+          type="text"
+          {...register("name")}
+          placeholder="Enter Category Name"
+        />
+        <button className="black-btn" type="submit">
+          Add
+        </button>
       </Input>
       <CategoryTable>
         <thead>
@@ -31,30 +100,25 @@ const Categories = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <b>Electronics</b>
-            </td>
-            <td>
-              <ActionBox>
-                <FaEye title="Hide" />
-                <BiEdit title="Edit" onClick={() => setEdit(true)} />
-                <BsTrash title="Delete" />
-              </ActionBox>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Vehicel</b>
-            </td>
-            <td>
-              <ActionBox>
-                <FaEye title="Hide" />
-                <BiEdit title="Edit" onClick={() => setEdit(true)} />
-                <BsTrash title="Delete" />
-              </ActionBox>
-            </td>
-          </tr>
+          {categories.map((element) => (
+            <tr key={element._id}>
+              <td>
+                <b>{element.name}</b>
+              </td>
+              <td>
+                <ActionBox>
+                  <BiEdit
+                    title="Edit"
+                    onClick={() => UpdateCategory(element)}
+                  />
+                  <BsTrash
+                    title="Delete"
+                    onClick={() => DeleteCategory(element._id)}
+                  />
+                </ActionBox>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </CategoryTable>
     </>
@@ -67,7 +131,7 @@ Categories.getLayout = function getLayout(Categories) {
   return <AdminLayout>{Categories}</AdminLayout>;
 };
 
-const Input = styled.div`
+const Input = styled.form`
   display: flex;
   margin-top: 30px;
   align-items: center;

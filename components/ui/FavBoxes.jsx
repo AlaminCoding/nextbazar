@@ -7,7 +7,7 @@ import { BsTrash } from "react-icons/bs";
 const FavBoxes = (props) => {
   const products = useSelector((state) => state.allProduct.products);
   const count = () => {
-    let index = products.findIndex((element) => element.id === props.data.id);
+    let index = products.findIndex((element) => element._id === props.data._id);
     return products[index].count;
   };
   const dispatch = useDispatch();

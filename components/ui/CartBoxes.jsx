@@ -9,7 +9,7 @@ import { useState } from "react";
 import ProductImage from "./ProductImage";
 
 const CartBoxes = (props) => {
-  const { id, onSell, sellPrice, price, count } = props.data;
+  const { _id, onSell, sellPrice, price, count } = props.data;
   const totalPrice = count * (onSell ? sellPrice : price);
   const [fadeOut, setFadeOut] = useState(false);
 
@@ -34,7 +34,7 @@ const CartBoxes = (props) => {
           <h2 className="heading">Price : {totalPrice}</h2>
         </li>
         <li>
-          <BsTrash onClick={() => fadeOutCartRemove(id)} />
+          <BsTrash onClick={() => fadeOutCartRemove(_id)} />
         </li>
       </ul>
     </CartBox>

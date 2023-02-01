@@ -1,5 +1,5 @@
-import Head from "next/head";
-
+import { useSelector } from "react-redux";
 export default function Shop() {
-  return <h2 className="custom-container">SHOP PAGE</h2>;
+  const user = useSelector((state) => state.userAuth.user);
+  return <>{user ? <h2>SHOP</h2> : null}</>;
 }

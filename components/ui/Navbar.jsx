@@ -2,10 +2,16 @@ import styled, { css } from "styled-components";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openCart } from "utils/slicers/cartOpenSlice";
 import { BiSearchAlt2 } from "react-icons/bi";
+import { logout } from "utils/slicers/userAuthSlice";
 const Navbar = () => {
+  const [user, setUser] = useState(null);
+  const loggedUser = useSelector((state) => state.userAuth.user);
+  useEffect(() => {
+    setUser(loggedUser);
+  });
   const [openMenu, setOpenMenu] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -25,6 +31,12 @@ const Navbar = () => {
       router.events.off("routeChangeStart", handleRouteChange);
     };
   });
+
+  const userLogout = () => {
+    dispatch(logout());
+    router.replace("/");
+  };
+
   return (
     <MainNav className="custom-container">
       <Logo>
@@ -56,16 +68,32 @@ const Navbar = () => {
         <li>
           <a onClick={() => dispatch(openCart())}>Cart</a>
         </li>
-        <li>
-          <Link href="/account">
-            <a>Account</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/admin">
-            <a className="black-btn">Admin</a>
-          </Link>
-        </li>
+        {user ? (
+          <>
+            <li>
+              <Link href="/profile">
+                <a
+                  className={
+                    router.pathname == "/profile" ? "menu-active" : null
+                  }
+                >
+                  Profile
+                </a>
+              </Link>
+            </li>
+            <li>
+              <a className="black-btn" onClick={() => userLogout()}>
+                Logout
+              </a>
+            </li>
+          </>
+        ) : (
+          <li>
+            <Link href="/account">
+              <a className="black-btn">Login / Signup</a>
+            </Link>
+          </li>
+        )}
       </Menu>
       <Toggle onClick={handleMenu} open={openMenu}>
         <div className="bar bar1"></div>

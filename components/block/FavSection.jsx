@@ -4,12 +4,17 @@ import { closeFav } from "utils/slicers/favOpenSlice";
 import { openCart } from "utils/slicers/cartOpenSlice";
 import { AiOutlineClose } from "react-icons/ai";
 import FavBoxes from "components/ui/FavBoxes";
-
+import { useEffect, useState } from "react";
 const FavSection = () => {
   const cartProducts = useSelector((state) => state.allProduct.cart);
   const favProducts = useSelector((state) => state.allProduct.favouriteCart);
   const favOpen = useSelector((state) => state.favOpen.showFav);
   const dispatch = useDispatch();
+
+  const [showFav, setShowFav] = useState(null);
+  useEffect(() => {
+    setShowFav(favOpen);
+  });
 
   const closeFavOpencart = () => {
     dispatch(closeFav());
@@ -17,7 +22,7 @@ const FavSection = () => {
   };
 
   return (
-    <FavBlock open={favOpen}>
+    <FavBlock open={showFav}>
       <div className="block-header">
         <h2 className="h-md">
           {favProducts.length > 0
@@ -31,7 +36,7 @@ const FavSection = () => {
       </div>
       <div className="fav-block">
         {favProducts.map((element) => (
-          <FavBoxes data={element} key={element.id} />
+          <FavBoxes data={element} key={element._id} />
         ))}
       </div>
       <div className="block-footer">
