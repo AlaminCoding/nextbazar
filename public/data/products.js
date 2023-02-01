@@ -2,7 +2,7 @@ const products = [
   {
     id: 0,
     name: "Owl Earphone",
-    image: "https://i.ibb.co/Z8fyhfN/headphone.jpg",
+    image: "https://i.postimg.cc/6QcdgXHK/headphone.jpg",
     category: "Electornics",
     description: "Lorem Ipsum DOler Si Amet",
     rating: 4,
@@ -16,7 +16,7 @@ const products = [
   {
     id: 1,
     name: "Owl Camera",
-    image: "https://i.ibb.co/nsRsc8d/camera.jpg",
+    image: "https://i.postimg.cc/QdLkWSB2/camera.jpg",
     category: "Electronics",
     description: "Lorem Ipsum DOler Si Amet",
     rating: 5,
@@ -30,7 +30,7 @@ const products = [
   {
     id: 2,
     name: "Owl Car",
-    image: "https://i.ibb.co/K02kBv7/yellow.jpg",
+    image: "https://i.postimg.cc/0NPYVQ0Z/car.jpg",
     category: "Vehicle",
     description: "Lorem Ipsum DOler Si Amet",
     rating: 5,
@@ -44,7 +44,7 @@ const products = [
   {
     id: 3,
     name: "Owl Tree",
-    image: "https://i.ibb.co/0msWnrg/trree.jpg",
+    image: "https://i.postimg.cc/L8zkkfLn/tree.jpg",
     category: "Electronics",
     description: "Lorem Ipsum DOler Si Amet",
     rating: 5,
@@ -58,7 +58,7 @@ const products = [
   {
     id: 4,
     name: "Owl Car",
-    image: "https://i.ibb.co/K02kBv7/yellow.jpg",
+    image: "https://i.postimg.cc/0NPYVQ0Z/car.jpg",
     category: "Vehicle",
     description: "Lorem Ipsum DOler Si Amet",
     rating: 5,

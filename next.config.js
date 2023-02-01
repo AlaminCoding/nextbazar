@@ -6,7 +6,7 @@ const nextConfig = {
 // module.exports = nextConfig;
 module.exports = {
   images: {
-    domains: ["i.ibb.co"],
+    domains: ["i.postimg.cc"],
     formats: ["image/avif", "image/webp"],
   },
   reactStrictMode: true,
